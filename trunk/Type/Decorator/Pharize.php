@@ -64,6 +64,19 @@ require_once 'ScriptReorganizer/Type/Decorator/Exception.php';
  * ?&gt;
  * </pre>
  *
+ * Suggested practice to follow, if the advanced pack mode of the
+ * {@link ScriptReorganizer_Strategy_Pack Pack} strategy is used for the optimization
+ * of the <kbd>PHP_Archive</kbd> to create:
+ * <ol>
+ * <li>Creation of a <i>debug</i> version: reorganization of the source applying the
+ * default pack mode.</li>
+ * <li>Running of all tests.</li>
+ * <li>Creation of a <i>deployment</i> version: reorganization of the source applying
+ * the advanced pack mode.</li>
+ * <li>Shipping of both versions, to enable third parties to track down undiscovered
+ * bugs.</li>
+ * </ol>
+ *
  * @category   Tools
  * @package    ScriptReorganizer
  * @subpackage Type_Decorator
@@ -143,8 +156,8 @@ class ScriptReorganizer_Type_Decorator_Pharize extends ScriptReorganizer_Type_De
     /**
      * Loads the scripts' content to be reorganized from disk
      *
-     * @param array $files an associative array holding all files' name to load and
-     *        the corresponding files' locations in the PHP Archive 
+     * @param  array $files an associative array holding all files' name to load and
+     *         the corresponding files' locations in the PHP Archive 
      * @param  boolean $magicRequire boolean true, for phar-stream activation within
      *         the PHP Arcive; otherwise false
      * @return void

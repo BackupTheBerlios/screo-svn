@@ -16,13 +16,15 @@
     </maintainers>
     
     <release>
-        <version>0.2.0</version>
-        <date>2005-05-23</date>
+        <version>0.2.1</version>
+        <date>2005-06-03</date>
         <state>alpha</state>
         <notes>
-* ScriptReorganizer_Strategy_Pack
-  Splitted single reformat into default and
-  advanced pack mode
+* ScriptReorganizer_Type
+  Fixed Heredoc bug spotted by Davey Shafik
+* ScriptReorganizer_Type_Decorator_Pharize
+  Updated the documentation regarding the best
+  practice to follow
         </notes>
         <deps>
             <dep type="php" rel="ge" version="5.0.2" />
@@ -137,6 +139,18 @@
         </filelist>
     </release>
     <changelog>
+        <release>
+            <version>0.2.0</version>
+            <date>2005-05-23</date>
+            <state>alpha</state>
+            <notes>
+* ScriptReorganizer_Strategy_Pack
+  - Splitted single reformat into default and
+    advanced pack mode
+  - Updated the documentation regarding the bug
+    tracking issue as suggested by Greg Beaver
+            </notes>
+        </release>
         <release>
             <version>0.1.1</version>
             <date>2005-05-18</date>

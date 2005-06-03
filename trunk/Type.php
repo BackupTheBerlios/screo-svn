@@ -59,6 +59,13 @@ abstract class ScriptReorganizer_Type
     public function __construct( ScriptReorganizer_Strategy $strategy )
     {
         $this->strategy = $strategy;
+        
+        $this->heredocIndent = '"[' . PHP_EOL . ']([ \t]+)[^' . PHP_EOL . ']+;$"';
+        
+        $heredocs  = '"[<]{3}[ \t]*([^' . PHP_EOL . '])+[' . PHP_EOL . ']';
+        $heredocs .= '(.|[' . PHP_EOL . '])+?\1;"';
+        
+        $this->heredocsIdentifier = $heredocs;
     }
     
     // }}}
@@ -126,7 +133,11 @@ abstract class ScriptReorganizer_Type
     {
         $content = $this->getContent();
         
-        $this->setContent( $this->strategy->reformat( $content ) );
+        $this->maskHeredocs( $content );
+        $content = $this->strategy->reformat( $content );
+        $this->unmaskHeredocs( $content );
+        
+        $this->setContent( $content );
     }
     
     // }}}
@@ -167,6 +178,61 @@ abstract class ScriptReorganizer_Type
     
     // }}}
     
+    // {{{ private function maskHeredocs( & $content )
+    
+    /**
+     * Hides Heredoc strings before the reorganization process
+     *
+     * @param  string &$content a string representing the script's content
+     * @return void
+     * @see    unmaskHeredocs(), reformat()
+     */
+    private function maskHeredocs( & $content )
+    {
+        if ( preg_match_all( $this->heredocsIdentifier, $content, $this->heredocs ) ) {
+            $i = 0;
+            
+            foreach ( $this->heredocs[0] as $heredoc ) {
+                $content = str_replace(
+                    $heredoc, '< Heredoc ' . $i++ . ' >', $content
+                );
+                
+                if ( preg_match( $this->heredocIndent, $heredoc, $indent ) ) {
+                    $this->heredocs[0][$i-1] = str_replace(
+                        PHP_EOL . $indent[1], PHP_EOL, $heredoc
+                    );
+                }
+            }
+        }
+    }
+    
+    // }}}
+    // {{{ private function unmaskHeredocs( & $content )
+    
+    /**
+     * Unhides Heredoc strings after the reorganization process
+     *
+     * @param  string &$content a string representing the script's content
+     * @return void
+     * @see    maskHeredocs(), reformat()
+     */
+    private function unmaskHeredocs( & $content )
+    {
+        $i = 0;
+        
+        foreach ( $this->heredocs[0] as $heredoc ) {
+            $hd = '< Heredoc ' . $i++ . ' >';
+            $trailingSpace = false !== strpos( $content, $hd . ' ' );
+            
+            $content = str_replace(
+                $hd . ( $trailingSpace ? ' ' : '' ),
+                $heredoc . ( $trailingSpace ? PHP_EOL : '' ), $content
+            );
+        }
+    }
+    
+    // }}}
+    
     // {{{ private properties
     
     /**
@@ -175,6 +241,27 @@ abstract class ScriptReorganizer_Type
      * @var string
      */
     private $content = '';
+    
+    /**
+     * Holds the indent level to remove from Heredoc strings
+     *
+     * @var string
+     */
+    private $heredocIndent = '';
+    
+    /**
+     * Holds the list of Heredoc strings to un-/mask
+     *
+     * @var array
+     */
+    private $heredocs = null;
+    
+    /**
+     * Holds the regular expression for Heredoc strings
+     *
+     * @var string
+     */
+    private $heredocsIdentifier = '';
     
     /**
      * Holds the strategy to apply

@@ -47,7 +47,7 @@ require_once 'ScriptReorganizer/Type/Exception.php';
  * To avoid the processing of files' imports, which can change independently from the
  * code base at any time, transform the respective statement from a static to a
  * dynamic one, e.g. <kbd>require_once 'configuration.php';</kbd> to
- * <b>require_once 'configuration' . '.php';</b>.
+ * <i>require_once 'configuration' . '.php';</i>.
  *
  * @category   Tools
  * @package    ScriptReorganizer
