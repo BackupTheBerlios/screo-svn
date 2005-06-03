@@ -186,6 +186,7 @@ abstract class ScriptReorganizer_Type
      * @param  string &$content a string representing the script's content
      * @return void
      * @see    unmaskHeredocs(), reformat()
+     * @since  Method available since Release 0.2.1
      */
     private function maskHeredocs( & $content )
     {
@@ -215,6 +216,7 @@ abstract class ScriptReorganizer_Type
      * @param  string &$content a string representing the script's content
      * @return void
      * @see    maskHeredocs(), reformat()
+     * @since  Method available since Release 0.2.1
      */
     private function unmaskHeredocs( & $content )
     {
@@ -243,7 +245,8 @@ abstract class ScriptReorganizer_Type
     private $content = '';
     
     /**
-     * Holds the indent level to remove from Heredoc strings
+     * Holds the regular expression for the indent level to remove from Heredoc
+     * strings
      *
      * @var string
      */

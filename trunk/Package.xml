@@ -24,7 +24,7 @@
   Fixed Heredoc bug spotted by Davey Shafik
 * ScriptReorganizer_Type_Decorator_Pharize
   Updated the documentation regarding the best
-  practice to follow
+  practice to follow as suggested by Greg Beaver
         </notes>
         <deps>
             <dep type="php" rel="ge" version="5.0.2" />
