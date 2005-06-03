@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<package version="1.0">
+    <name>ScriptReorganizer</name>
+    <summary>ScriptReorganizer promotes the best practice of a two-way deployment and adds value to already existing optimization/performance enhancing applications.</summary>
+    <description>
+        The package has the ability to reorganize source code in different (incremental) ways, setting its focus exclusively on the file size aspect of optimization.
+    </description>
+    <license>LGPL</license>
+    <maintainers>
+        <maintainer>
+            <user>sfrausch</user>
+            <name>Stefano F. Rausch</name>
+            <email>stefano@rausch-e.net</email>
+            <role>lead</role>
+        </maintainer>
+    </maintainers>
+    
+    <release>
+        <version>0.2.1</version>
+        <date>2005-06-03</date>
+        <state>alpha</state>
+        <notes>
+* ScriptReorganizer_Type
+  Fixed Heredoc bug spotted by Davey Shafik
+* ScriptReorganizer_Type_Decorator_Pharize
+  Updated the documentation regarding the best
+  practice to follow
+        </notes>
+        <deps>
+            <dep type="php" rel="ge" version="5.0.2" />
+            <dep type="pkg" rel="ge" version="0.5.0" optional="yes">PHP_Archive</dep>
+            <dep type="pkg" rel="ge" version="2.2.0" optional="yes">PHPUnit2</dep>
+        </deps>
+        <filelist>
+            <dir baseinstalldir="ScriptReorganizer" name="/" role="php">
+                <file name="GNU.LesserGPL" />
+                <dir name="docs">
+                    <dir name="uml">
+                        <file name="sketch.zuml" />
+                    </dir>
+                </dir>
+                <file name="Exception.php">
+                    <replace from="@package_version@" to="version" type="package-info" />
+                </file>
+                <file name="Strategy.php">
+                    <replace from="@package_version@" to="version" type="package-info" />
+                </file>
+                <dir name="Strategy">
+                    <file name="Exception.php">
+                    	<replace from="@package_version@" to="version" type="package-info" />
+                    </file>
+                    <file name="Pack.php">
+                    	<replace from="@package_version@" to="version" type="package-info" />
+                    </file>
+                    <file name="Quiet.php">
+                    	<replace from="@package_version@" to="version" type="package-info" />
+                    </file>
+                    <file name="Route.php">
+                    	<replace from="@package_version@" to="version" type="package-info" />
+                    </file>
+                </dir>
+                <file name="Type.php">
+                    <replace from="@package_version@" to="version" type="package-info" />
+                </file>
+                <dir name="Type">
+                    <file name="Decorator.php">
+                        <replace from="@package_version@" to="version" type="package-info" />
+                    </file>
+                    <file name="Exception.php">
+                        <replace from="@package_version@" to="version" type="package-info" />
+                    </file>
+                    <file name="Library.php">
+                        <replace from="@package_version@" to="version" type="package-info" />
+                    </file>
+                    <file name="Script.php">
+                        <replace from="@package_version@" to="version" type="package-info" />
+                    </file>
+                    <dir name="Decorator">
+                        <file name="AddFooter.php">
+                            <replace from="@package_version@" to="version" type="package-info" />
+                        </file>
+                        <file name="AddHeader.php">
+                            <replace from="@package_version@" to="version" type="package-info" />
+                        </file>
+                        <file name="Exception.php">
+                            <replace from="@package_version@" to="version" type="package-info" />
+                        </file>
+                        <file name="Pharize.php">
+                            <replace from="@package_version@" to="version" type="package-info" />
+                        </file>
+                    </dir>
+                </dir>
+                <dir name="Tests">
+                    <file name="PHPUnit2_Extensions_TestFileLoader-0.3.0.tgz" />
+                    <file name="AllTests.php" />
+                    <dir name="files">
+                        <file name="ARequiresB.php" />
+                        <file name="BRequiresA.php" />
+                        <file name="expectedDefaultPackedLibrary.php" />
+                        <file name="expectedDefaultPackedScript.php" />
+                        <file name="expectedOneLinerPackedLibrary.php" />
+                        <file name="expectedOneLinerPackedScript.php" />
+                        <file name="expectedQuietedLibrary.php" />
+                        <file name="expectedQuietedScript.php" />
+                        <file name="expectedRoutedLibrary.php" />
+                        <file name="expectedRoutedScript.php" />
+                        <file name="sample.php" />
+                        <dir name="tree">
+                            <file name="leaf.php" />
+                            <file name="root.php" />
+                            <file name="root.php-FailingImport.php" />
+                            <file name="subLeaf.php" />
+                            <dir name="node">
+                                <file name="leaf1.php" />
+                                <file name="leaf2.php" />
+                            </dir>
+                        </dir>
+                    </dir>
+                    <dir name="Strategy">
+                        <file name="AllTests.php" />
+                        <file name="PackTest.php" />
+                        <file name="QuietTest.php" />
+                        <file name="RouteTest.php" />
+                    </dir>
+                    <dir name="Type">
+                        <file name="AllTests.php" />
+                        <file name="LibraryTest.php" />
+                        <file name="ScriptTest.php" />
+                        <dir name="Decorator">
+                            <file name="AddFooterTest.php" />
+                            <file name="AddHeaderTest.php" />
+                            <file name="AddHeaderAndFooterTest.php" />
+                            <file name="AllTests.php" />
+                            <file name="PharizeTest.php" />
+                        </dir>
+                    </dir>
+                </dir>
+            </dir>
+        </filelist>
+    </release>
+    <changelog>
+        <release>
+            <version>0.2.0</version>
+            <date>2005-05-23</date>
+            <state>alpha</state>
+            <notes>
+* ScriptReorganizer_Strategy_Pack
+  - Splitted single reformat into default and
+    advanced pack mode
+  - Updated the documentation regarding the bug
+    tracking issue as suggested by Greg Beaver
+            </notes>
+        </release>
+        <release>
+            <version>0.1.1</version>
+            <date>2005-05-18</date>
+            <state>alpha</state>
+            <notes>
+* ScriptReorganizer_Type_Library
+  Fixed cylic import bug spotted by Vincent
+  Lascaux
+            </notes>
+        </release>
+        <release>
+            <version>0.1.0</version>
+            <date>2005-05-15</date>
+            <state>alpha</state>
+            <notes>
+First proposal to the PEAR community.
+            </notes>
+        </release>
+    </changelog>
+</package>
