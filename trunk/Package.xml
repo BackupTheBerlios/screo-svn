@@ -24,7 +24,7 @@
   Fixed Heredoc bug spotted by Davey Shafik
 * ScriptReorganizer_Type_Decorator_Pharize
   Updated the documentation regarding the best
-  practice to follow as suggested by Greg Beaver
+  practice to follow - suggested by Greg Beaver
         </notes>
         <deps>
             <dep type="php" rel="ge" version="5.0.2" />
@@ -32,13 +32,15 @@
             <dep type="pkg" rel="ge" version="2.2.0" optional="yes">PHPUnit2</dep>
         </deps>
         <filelist>
-            <dir baseinstalldir="ScriptReorganizer" name="/" role="php">
-                <file name="GNU.LesserGPL" />
+            <dir baseinstalldir="ScriptReorganizer" name="/" role="doc">
                 <dir name="docs">
                     <dir name="uml">
                         <file name="sketch.zuml" />
                     </dir>
                 </dir>
+            </dir>
+            <dir baseinstalldir="ScriptReorganizer" name="/" role="php">
+                <file name="GNU.LesserGPL" />
                 <file name="Exception.php">
                     <replace from="@package_version@" to="version" type="package-info" />
                 </file>
@@ -90,6 +92,8 @@
                         </file>
                     </dir>
                 </dir>
+            </dir>
+            <dir baseinstalldir="ScriptReorganizer" name="/" role="test">
                 <dir name="Tests">
                     <file name="PHPUnit2_Extensions_TestFileLoader-0.3.0.tgz" />
                     <file name="AllTests.php" />
@@ -148,7 +152,7 @@
   - Splitted single reformat into default and
     advanced pack mode
   - Updated the documentation regarding the bug
-    tracking issue as suggested by Greg Beaver
+    tracking issue - suggested by Greg Beaver
             </notes>
         </release>
         <release>
