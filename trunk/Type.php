@@ -60,10 +60,8 @@ abstract class ScriptReorganizer_Type
     {
         $this->strategy = $strategy;
         
-        $this->heredocIndent = '"[' . PHP_EOL . ']([ \t]+)[^' . PHP_EOL . ']+;$"';
-        
-        $heredocs  = '"[<]{3}[ \t]*([^' . PHP_EOL . '])+[' . PHP_EOL . ']';
-        $heredocs .= '(.|[' . PHP_EOL . '])+?\1;"';
+        $heredocs  = '"([<]{3}[ \t]*(\w+)[' . PHP_EOL . ']';
+        $heredocs .= '(.|[' . PHP_EOL . '])+?\2;?)[' . PHP_EOL . ']"';
         
         $this->heredocsIdentifier = $heredocs;
     }
@@ -193,13 +191,16 @@ abstract class ScriptReorganizer_Type
         if ( preg_match_all( $this->heredocsIdentifier, $content, $this->heredocs ) ) {
             $i = 0;
             
-            foreach ( $this->heredocs[0] as $heredoc ) {
+            foreach ( $this->heredocs[1] as $heredoc ) {
                 $content = str_replace(
                     $heredoc, '< Heredoc ' . $i++ . ' >', $content
                 );
                 
-                if ( preg_match( $this->heredocIndent, $heredoc, $indent ) ) {
-                    $this->heredocs[0][$i-1] = str_replace(
+                preg_match( '"^[<]{3}[ \t]*(\w+)"', $heredoc, $identifier );
+                $heredocIndent = '"[' . PHP_EOL . ']([ \t]+)' . $identifier[1] . ';?$"';
+                
+                if ( preg_match( $heredocIndent, $heredoc, $indent ) ) {
+                    $this->heredocs[1][$i-1] = str_replace(
                         PHP_EOL . $indent[1], PHP_EOL, $heredoc
                     );
                 }
@@ -222,7 +223,7 @@ abstract class ScriptReorganizer_Type
     {
         $i = 0;
         
-        foreach ( $this->heredocs[0] as $heredoc ) {
+        foreach ( $this->heredocs[1] as $heredoc ) {
             $hd = '< Heredoc ' . $i++ . ' >';
             $trailingSpace = false !== strpos( $content, $hd . ' ' );
             
@@ -243,14 +244,6 @@ abstract class ScriptReorganizer_Type
      * @var string
      */
     private $content = '';
-    
-    /**
-     * Holds the regular expression for the indent level to remove from Heredoc
-     * strings
-     *
-     * @var string
-     */
-    private $heredocIndent = '';
     
     /**
      * Holds the list of Heredoc strings to un-/mask
