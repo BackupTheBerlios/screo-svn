@@ -27,7 +27,8 @@ HD
 // right parenthesis can be anywhere, but starting from the next line
 
 // due to the following closing identifier not being at the beginning of the line
-// this file does not validate syntax-wise; only for testing purposes!
+// this file does not validate syntax-wise; only for testing purposes: emulate library
+// creation!
 
 $hd3 = str_replace( 'HereDoc', 'HEREDOC', <<< HD
         HereDoc

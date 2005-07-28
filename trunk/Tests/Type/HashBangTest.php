@@ -11,9 +11,10 @@ require_once 'PHPUnit2/Framework/TestCase.php';
 
 require_once 'ScriptReorganizer/Strategy/Pack.php';
 
+require_once 'ScriptReorganizer/Type/Library.php';
 require_once 'ScriptReorganizer/Type/Script.php';
 
-class ScriptReorganizer_Tests_Type_HeredocTest extends PHPUnit2_Framework_TestCase
+class ScriptReorganizer_Tests_Type_HashBangTest extends PHPUnit2_Framework_TestCase
 {
     // {{{ public function setUp()
     
@@ -21,7 +22,7 @@ class ScriptReorganizer_Tests_Type_HeredocTest extends PHPUnit2_Framework_TestCa
     {
         $rp = realpath( dirname( __FILE__ ) . '/../files' ) . DIRECTORY_SEPARATOR;
         
-        $this->source = $rp . 'heredoc.php';
+        $this->source = $rp . 'hashBang.php';
         $this->target = $rp;
     }
     
@@ -42,38 +43,38 @@ class ScriptReorganizer_Tests_Type_HeredocTest extends PHPUnit2_Framework_TestCa
     
     // }}}
     
-    // {{{ public function testDefaultPackedHeredoc()
+    // {{{ public function testDefaultPackedScriptHashBang()
     
-    public function testDefaultPackedHeredoc()
+    public function testDefaultPackedScriptHashBang()
     {
-        $expected = '<?php' . (include 'ScriptReorganizer/Tests/files/expectedDefaultPackedHeredoc.php' ) . '?>';
+        $expected = include 'ScriptReorganizer/Tests/files/expectedDefaultPackedScriptHashBang.php';
         $script = new ScriptReorganizer_Type_Script( new ScriptReorganizer_Strategy_Pack );
-        $this->target .= 'defaultPackedHeredoc.php';
+        $this->target .= 'defaultPackedScriptHashBang.php';
         
         $this->xRescript( $script, $expected );
     }
     
     // }}}
-    // {{{ public function testAdvancedPackedHeredoc()
+    // {{{ public function testDefaultPackedLibraryHashBang()
     
-    public function testAdvancedPackedHeredoc()
+    public function testDefaultPackedLibraryHashBang()
     {
-        $expected = '<?php' . (include 'ScriptReorganizer/Tests/files/expectedAdvancedPackedHeredoc.php' ) . '?>';
-        $script = new ScriptReorganizer_Type_Script( new ScriptReorganizer_Strategy_Pack( true ) );
-        $this->target .= 'advancedPackedHeredoc.php';
+        $expected = include 'ScriptReorganizer/Tests/files/expectedDefaultPackedLibraryHashBang.php';
+        $library = new ScriptReorganizer_Type_Library( new ScriptReorganizer_Strategy_Pack );
+        $this->target .= 'defaultPackedLibraryHashBang.php';
         
-        $this->xRescript( $script, $expected );
+        $this->xRescript( $library, $expected );
     }
     
     // }}}
     
-    // {{{ private function xRescript( ScriptReorganizer_Type_Script $script, & $expected )
+    // {{{ private function xRescript( ScriptReorganizer_Type $type, & $expected )
     
-    private function xRescript( ScriptReorganizer_Type_Script $script, & $expected )
+    private function xRescript( ScriptReorganizer_Type $type, & $expected )
     {
-        $script->load( $this->source );
-        $script->reformat();
-        $script->save( $this->target );
+        $type->load( $this->source );
+        $type->reformat();
+        $type->save( $this->target );
         
         $this->assertTrue( $expected === file_get_contents( $this->target ) );
     }

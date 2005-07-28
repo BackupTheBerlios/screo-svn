@@ -113,7 +113,7 @@ class ScriptReorganizer_Tests_Type_Decorator_PharizeTest extends PHPUnit2_Framew
     {
         $files = array(
             $this->path . 'expectedDefaultPackedLibrary.php' => 'defaultPackedLibrary.php',
-            $this->path . 'sample.php' => 'script/packedScript.php',
+            $this->path . 'sample.php' => 'script/defaultPackedScript.php',
         );
         
         $this->archive->loadFiles( $files );

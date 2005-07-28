@@ -166,9 +166,9 @@ class ScriptReorganizer_Type_Decorator_Pharize extends ScriptReorganizer_Type_De
      */
     public function loadFiles( $files, $magicRequire = false )
     {
-        if ( !is_array( $files ) || empty( $files) ) {
+        if ( !is_array( $files ) || empty( $files ) ) {
             throw new ScriptReorganizer_Type_Decorator_Exception(
-                'Argument $files for Pharize-Decorator not of type array'
+                'Argument $files for Pharize-Decorator either not of type array or empty'
             );
         }
         

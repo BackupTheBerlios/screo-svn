@@ -60,6 +60,9 @@ abstract class ScriptReorganizer_Type
     {
         $this->strategy = $strategy;
         
+        $this->hashBangIdentifier = '"^[ \t' . PHP_EOL . ']*(\#\![^' . PHP_EOL . ']+'
+            . PHP_EOL . ')"';
+        
         $heredocs  = '"([<]{3}[ \t]*(\w+)[' . PHP_EOL . ']';
         $heredocs .= '(.|[' . PHP_EOL . '])+?\2;?)[' . PHP_EOL . ']"';
         
@@ -107,8 +110,16 @@ abstract class ScriptReorganizer_Type
         
         if ( false === $content ) {
             throw new ScriptReorganizer_Type_Exception(
-                'File ' . $file . ' is not readable.'
+                'File ' . $file . ' is not readable'
             );
+        }
+        
+        if ( preg_match( $this->hashBangIdentifier, $content, $match ) ) {
+            $content = str_replace( $match[0], '', $content );
+            
+            if ( !$this->hashBang ) {
+                $this->hashBang = $match[1];
+            }
         }
         
         $result = trim( $content );
@@ -150,12 +161,13 @@ abstract class ScriptReorganizer_Type
      */
     public function save( $file )
     {
-        $content = '<?php' . PHP_EOL . PHP_EOL . $this->getContent() . PHP_EOL
+        $content  = $this->hashBang;
+        $content .= '<?php' . PHP_EOL . PHP_EOL . $this->getContent() . PHP_EOL
             . PHP_EOL . '?>';
         
         if ( false === @file_put_contents( $file, $content ) ) {
             throw new ScriptReorganizer_Type_Exception(
-                'File ' . $file . ' is not writable.'
+                'File ' . $file . ' is not writable'
             );
         }
     }
@@ -244,6 +256,20 @@ abstract class ScriptReorganizer_Type
      * @var string
      */
     private $content = '';
+    
+    /**
+     * Holds the first found hash-bang directive
+     *
+     * @var string
+     */
+    private $hashBang = '';
+    
+    /**
+     * Holds the regular expression for the unices' has-bang directive
+     *
+     * @var string
+     */
+    private $hashBangIdentifier = '';
     
     /**
      * Holds the list of Heredoc strings to un-/mask
