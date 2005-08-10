@@ -44,6 +44,10 @@ require_once 'ScriptReorganizer/Type/Exception.php';
  * Converts a script file and all included/required files to a single library file
  * according to the {@link ScriptReorganizer_Strategy Strategy} to apply.
  *
+ * If the advanced pack mode strategy is used for packaging, a non-ScriptReorganized
+ * source code tree should be shipped together with the optimized one, to enable
+ * third parties to track down undiscoverd bugs.
+ *
  * To avoid the processing of files' imports, which can change independently from the
  * code base at any time, transform the respective statement from a static to a
  * dynamic one, e.g. <kbd>require_once 'configuration.php';</kbd> to

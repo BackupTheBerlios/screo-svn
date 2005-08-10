@@ -64,18 +64,9 @@ require_once 'ScriptReorganizer/Type/Decorator/Exception.php';
  * ?&gt;
  * </pre>
  *
- * Suggested practice to follow, if the advanced pack mode of the
- * {@link ScriptReorganizer_Strategy_Pack Pack} strategy is used for the optimization
- * of the <kbd>PHP_Archive</kbd> to create:
- * <ol>
- * <li>Creation of a <i>debug</i> version: reorganization of the source applying the
- * default pack mode.</li>
- * <li>Running of all tests.</li>
- * <li>Creation of a <i>deployment</i> version: reorganization of the source applying
- * the advanced pack mode.</li>
- * <li>Shipping of both versions, to enable third parties to track down undiscovered
- * bugs.</li>
- * </ol>
+ * If a (complex) application is pharized, a non-ScriptReorganized source code tree
+ * should be shipped together with the optimized one, to enable third parties to
+ * track down undiscoverd bugs.
  *
  * @category   Tools
  * @package    ScriptReorganizer
@@ -134,7 +125,7 @@ class ScriptReorganizer_Type_Decorator_Pharize extends ScriptReorganizer_Type_De
         
         if ( !is_string( $target ) || '' == $target ) {
             throw new ScriptReorganizer_Type_Decorator_Exception(
-                'Argument $target for Pharize-Decorator not of type string'
+                'Argument $target for Pharize-Decorator either not of type string or empty'
             );
         }
         

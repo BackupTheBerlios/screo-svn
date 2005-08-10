@@ -34,6 +34,10 @@ require_once 'ScriptReorganizer/Type.php';
  * Converts a single script file according to the
  * {@link ScriptReorganizer_Strategy Strategy} to apply.
  *
+ * If the advanced pack mode strategy is used for optimizing, a non-ScriptReorganized
+ * source code tree should be shipped together with the optimized one, to enable
+ * third parties to track down undiscoverd bugs.
+ *
  * @category   Tools
  * @package    ScriptReorganizer
  * @subpackage Type
