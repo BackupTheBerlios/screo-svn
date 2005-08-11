@@ -57,13 +57,24 @@ class ScriptReorganizer_Type_Decorator_AddHeader extends ScriptReorganizer_Type_
     /**
      * Constructor
      *
-     * @param ScriptReorganizer_Type $type a <kbd>ScriptReorganizer_Type</kbd> to
-     *        decorate
-     * @param string $header a string representing the (optional) default header to
-     *        prepend
+     * ANN: Decoration of a directly sequencing Pharize-Decorator is not allowed.
+     *
+     * @param  ScriptReorganizer_Type $type a <kbd>ScriptReorganizer_Type</kbd> to
+     *         decorate
+     * @param  string $header a string representing the (optional) default header to
+     *         prepend
+     * @throws {@link ScriptReorganizer_Type_Decorator_Exception ScriptReorganizer_Type_Decorator_Exception}
      */
     public function __construct( ScriptReorganizer_Type $type, $header = '' )
     {
+        if ( class_exists( 'ScriptReorganizer_Type_Decorator_Pharize' ) ) {
+            if ( $type instanceof ScriptReorganizer_Type_Decorator_Pharize ) {
+                throw new ScriptReorganizer_Type_Decorator_Exception(
+                    'Decoration of a directly sequencing Pharize-Decorator not allowed'
+                );
+            }
+        }
+        
         parent::__construct( $type );
         
         $this->header = $header;

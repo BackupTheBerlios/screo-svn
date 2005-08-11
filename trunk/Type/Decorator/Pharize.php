@@ -51,22 +51,11 @@ require_once 'ScriptReorganizer/Type/Decorator/Exception.php';
 /**
  * Decorator/Adapter for creating a <kbd>PHP_Archive</kbd>
  *
- * Constraints: <kbd>Pharize</kbd> must be the first in a list of chained decorators
- * to apply, for it only supports the sequencing decorators' methods <kbd>load</kbd>
- * and <kbd>reformat</kbd>. The correct (general) form of use is:
- * <pre>
- * &lt;?php
- *
- * $type = new ScriptReorganizer_Type_Decorator_Pharize(
- *     [new &lt;Decorators&gt;(] new &lt;Type&gt;( new &lt;Strategy&gt; ) [)]
- * );
- *
- * ?&gt;
- * </pre>
- *
  * If a (complex) application is pharized, a non-ScriptReorganized source code tree
  * should be shipped together with the optimized one, to enable third parties to
  * track down undiscoverd bugs.
+ *
+ * ANN: Decoration of a directly sequencing Pharize-Decorator is not allowed.
  *
  * @category   Tools
  * @package    ScriptReorganizer
@@ -93,7 +82,7 @@ class ScriptReorganizer_Type_Decorator_Pharize extends ScriptReorganizer_Type_De
     {
         if ( $type instanceof ScriptReorganizer_Type_Decorator_Pharize ) {
             throw new ScriptReorganizer_Type_Decorator_Exception(
-                'Decoration of directly sequencing Pharize-Decorators not allowed'
+                'Decoration of a directly sequencing Pharize-Decorator not allowed'
             );
         }
         
