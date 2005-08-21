@@ -41,6 +41,8 @@ require_once 'ScriptReorganizer/Type/Decorator/Exception.php';
 /**
  * Decorator for adding a header to the script to reorganize
  *
+ * ANN: Decoration of a directly sequencing Pharize-Decorator is not allowed.
+ *
  * @category   Tools
  * @package    ScriptReorganizer
  * @subpackage Type_Decorator
@@ -56,8 +58,6 @@ class ScriptReorganizer_Type_Decorator_AddHeader extends ScriptReorganizer_Type_
     
     /**
      * Constructor
-     *
-     * ANN: Decoration of a directly sequencing Pharize-Decorator is not allowed.
      *
      * @param  ScriptReorganizer_Type $type a <kbd>ScriptReorganizer_Type</kbd> to
      *         decorate

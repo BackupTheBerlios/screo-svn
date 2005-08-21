@@ -119,6 +119,28 @@ class ScriptReorganizer_Tests_Type_Decorator_AddHeaderTest extends PHPUnit2_Fram
     }
     
     // }}}
+    // {{{ public function testPharizeDecoratorException()
+    
+    public function testPharizeDecoratorException()
+    {
+        if ( !class_exists( 'ScriptReorganizer_Type_Decorator_Pharize' ) ) {
+            require_once 'ScriptReorganizer/Type/Decorator/Pharize.php';
+        }
+        
+        try {
+            $decorator = new ScriptReorganizer_Type_Decorator_AddHeader(
+                new ScriptReorganizer_Type_Decorator_Pharize(
+                    new ScriptReorganizer_Type_Script( new ScriptReorganizer_Strategy_Pack )
+                )
+            );
+            
+            $this->fail( 'Exception not thrown' );
+        } catch ( ScriptReorganizer_Type_Decorator_Exception $e ) {
+            $this->assertContains( 'Pharize-Decorator', $e->getMessage() );
+        }
+    }
+    
+    // }}}
     
     // {{{ private function xRescript( ScriptReorganizer_Type_Decorator $decorator, & $expected )
     
