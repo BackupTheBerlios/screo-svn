@@ -13,6 +13,7 @@ require_once 'ScriptReorganizer/Strategy/Pack.php';
 
 require_once 'ScriptReorganizer/Type/Script.php';
 
+require_once 'ScriptReorganizer/Type/Decorator/Bcompile.php';
 require_once 'ScriptReorganizer/Type/Decorator/Exception.php';
 require_once 'ScriptReorganizer/Type/Decorator/Pharize.php';
 
@@ -67,28 +68,59 @@ class ScriptReorganizer_Tests_Type_Decorator_PharizeTest extends PHPUnit2_Framew
     }
     
     // }}}
-    // {{{ public function testPharizeArrayException()
+    // {{{ public function testBcompileDecorationUnsuccessful()
     
-    public function testPharizeArrayException()
+    public function testBcompileDecorationUnsuccessful()
+    {
+        try {
+            $archive = new ScriptReorganizer_Type_Decorator_Pharize(
+                new ScriptReorganizer_Type_Decorator_Bcompile(
+                    new ScriptReorganizer_Type_Script( new ScriptReorganizer_Strategy_Pack )
+                )
+            );
+            
+            $this->fail( 'Exception not thrown' );
+        } catch ( ScriptReorganizer_Type_Decorator_Exception $e ) {
+            $this->assertContains( 'sequencing Bcompile', $e->getMessage() );
+        }
+    }
+    
+    // }}}
+    // {{{ public function testLoadFilesArrayException()
+    
+    public function testLoadFilesArrayException()
     {
         try {
             $this->archive->loadFiles( array() );
             $this->fail( 'Exception not thrown' );
         } catch ( ScriptReorganizer_Type_Decorator_Exception $e ) {
-            $this->assertContains( 'not of type array', $e->getMessage() );
+            $this->assertContains( 'array or empty', $e->getMessage() );
         }
     }
     
     // }}}
-    // {{{ public function testPharizeStringException()
+    // {{{ public function testSetContentArrayException()
     
-    public function testPharizeStringException()
+    public function testSetContentArrayException()
+    {
+        try {
+            $this->archive->setContent( array() );
+            $this->fail( 'Exception not thrown' );
+        } catch ( ScriptReorganizer_Type_Decorator_Exception $e ) {
+            $this->assertContains( 'array or empty', $e->getMessage() );
+        }
+    }
+    
+    // }}}
+    // {{{ public function testLoadStringException()
+    
+    public function testLoadStringException()
     {
         try {
             $this->archive->load( $this->path . 'expectedDefaultPackedScript.php', '' );
             $this->fail( 'Exception not thrown' );
         } catch ( ScriptReorganizer_Type_Decorator_Exception $e ) {
-            $this->assertContains( 'not of type string', $e->getMessage() );
+            $this->assertContains( 'string or empty', $e->getMessage() );
         }
     }
     

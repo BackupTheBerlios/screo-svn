@@ -55,7 +55,8 @@ require_once 'ScriptReorganizer/Type/Decorator/Exception.php';
  * should be shipped together with the optimized one, to enable third parties to
  * track down undiscoverd bugs.
  *
- * ANN: Decoration of a directly sequencing Pharize-Decorator is not allowed.
+ * ANN: Decoration of a directly sequencing Pharize-Decorator or Bcompile-Decorator
+ * is not allowed.
  *
  * @category   Tools
  * @package    ScriptReorganizer
@@ -80,9 +81,19 @@ class ScriptReorganizer_Type_Decorator_Pharize extends ScriptReorganizer_Type_De
      */
     public function __construct( ScriptReorganizer_Type $type )
     {
+        $constraint = '';
+        
         if ( $type instanceof ScriptReorganizer_Type_Decorator_Pharize ) {
+            $constraint = 'Pharize-Decorator';
+        } else if ( class_exists( 'ScriptReorganizer_Type_Decorator_Bcompile' ) ) {
+            if ( $type instanceof ScriptReorganizer_Type_Decorator_Bcompile ) {
+                $constraint = 'Bcompile-Decorator';
+            }
+        }
+        
+        if ( $constraint ) {
             throw new ScriptReorganizer_Type_Decorator_Exception(
-                'Decoration of a directly sequencing Pharize-Decorator not allowed'
+                'Decoration of a directly sequencing ' . $constraint . ' not allowed'
             );
         }
         
@@ -94,6 +105,21 @@ class ScriptReorganizer_Type_Decorator_Pharize extends ScriptReorganizer_Type_De
     
     // }}}
     
+    // {{{ public function getContent()
+    
+    /**
+     * Gets the scripts' contents currently being reorganized
+     *
+     * @return array an associative array holding all files' locations in the PHP
+     *         Archive and the corresponding contents
+     * @since  Method available since Release 0.3.0
+     */
+    public function getContent()
+    {
+        return $this->files;
+    }
+    
+    // }}}
     // {{{ public function load( $source, $target, $magicRequire = false )
     
     /**
@@ -118,7 +144,7 @@ class ScriptReorganizer_Type_Decorator_Pharize extends ScriptReorganizer_Type_De
             );
         }
         
-        $content = $this->getContent();
+        $content = parent::getContent();
         
         $this->loadContent( $content, $target, $magicRequire );
     }
@@ -139,7 +165,7 @@ class ScriptReorganizer_Type_Decorator_Pharize extends ScriptReorganizer_Type_De
      * @param  array $files an associative array holding all files' name to load and
      *         the corresponding files' locations in the PHP Archive 
      * @param  boolean $magicRequire boolean true, for phar-stream activation within
-     *         the PHP Arcive; otherwise false
+     *         the PHP Archive; otherwise false
      * @return void
      * @throws {@link ScriptReorganizer_Type_Exception ScriptReorganizer_Type_Exception}
      * @throws {@link ScriptReorganizer_Type_Decorator_Exception ScriptReorganizer_Type_Decorator_Exception}
@@ -169,9 +195,9 @@ class ScriptReorganizer_Type_Decorator_Pharize extends ScriptReorganizer_Type_De
     public function reformat()
     {
         foreach ( $this->files as $target => $content ) {
-            $this->setContent( $content );
+            parent::setContent( $content );
             parent::reformat();
-            $this->files[$target] = $this->getContent();
+            $this->files[$target] = parent::getContent();
         }
     }
     
@@ -222,6 +248,33 @@ class ScriptReorganizer_Type_Decorator_Pharize extends ScriptReorganizer_Type_De
             throw new ScriptReorganizer_Type_Decorator_Exception(
                 'PHP Archive file ' . $file . ' is not writable'
             );
+        }
+    }
+    
+    // }}}
+    // {{{ public function setContent( $targets, $magicRequire = false )
+    
+    /**
+     * Sets the scripts' contents currently being reorganized
+     *
+     * @param  string $targets an associative array holding all files' locations in
+     *         the PHP Archive and the corresponding contents
+     * @param  boolean $magicRequire boolean true, for phar-stream activation within
+     *         the PHP Arcive; otherwise false
+     * @return void
+     * @throws {@link ScriptReorganizer_Type_Decorator_Exception ScriptReorganizer_Type_Decorator_Exception}
+     * @since  Method available since Release 0.3.0
+     */
+    public function setContent( $targets, $magicRequire = false )
+    {
+        if ( !is_array( $targets ) || empty( $targets ) ) {
+            throw new ScriptReorganizer_Type_Decorator_Exception(
+                'Argument $targets for Pharize-Decorator either not of type array or empty'
+            );
+        }
+        
+        foreach ( $targets as $target => $content ) {
+            $this->loadContent( $content, $target, $magicRequire );
         }
     }
     
