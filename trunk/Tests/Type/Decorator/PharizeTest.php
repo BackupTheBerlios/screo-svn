@@ -139,6 +139,17 @@ class ScriptReorganizer_Tests_Type_Decorator_PharizeTest extends PHPUnit2_Framew
     }
     
     // }}}
+    // {{{ public function testSetAndGetContent()
+    
+    public function testSetAndGetContent()
+    {
+        $this->archive->setContent( array( 'script.php' => 'content' ) );
+        $contents = $this->archive->getContent();
+        
+        $this->assertTrue( 'content' === $contents['script.php'] );
+    }
+    
+    // }}}
     // {{{ public function testPharCreationSuccessful()
     
     public function testPharCreationSuccessful()
