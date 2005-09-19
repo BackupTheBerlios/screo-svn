@@ -19,6 +19,7 @@ class ScriptReorganizer_Tests_Type_Decorator_AllTests
         $suite->addTestFile( 'ScriptReorganizer/Tests/Type/Decorator/AddFooterTest.php' );
         $suite->addTestFile( 'ScriptReorganizer/Tests/Type/Decorator/AddHeaderTest.php' );
         $suite->addTestFile( 'ScriptReorganizer/Tests/Type/Decorator/AddHeaderAndFooterTest.php' );
+        $suite->addTestFile( 'ScriptReorganizer/Tests/Type/Decorator/BcompileTest.php' );
         $suite->addTestFile( 'ScriptReorganizer/Tests/Type/Decorator/PharizeTest.php' );
         
         return $suite;
