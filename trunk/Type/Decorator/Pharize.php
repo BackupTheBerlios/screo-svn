@@ -26,7 +26,7 @@
 /**
  * Uses <kbd>PHP_Archive_Creator</kbd>
  */
-require_once 'PHP/Archive/Creator.php';
+require_once 'PHP/Archive/' . 'Creator.php';
 
 /**
  * Depends on <kbd>ScriptReorganizer_Type</kbd>

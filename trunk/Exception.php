@@ -25,7 +25,7 @@
 /**
  * Extends <kbd>PEAR_Exception</kbd>
  */
-require_once 'PEAR/Exception.php';
+require_once 'PEAR/' . 'Exception.php';
 
 /**
  * Base exception class
