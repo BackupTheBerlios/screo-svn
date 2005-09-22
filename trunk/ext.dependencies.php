@@ -1,13 +1,11 @@
-<?php
+<?php return;
 
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * External dependencies documentation file
+ * External dependencies
  *
- * @category   Tools
- * @package    ScriptReorganizer
- * @subpackage Dependencies
+ * @package    Dependencies
  * @author     Stefano F. Rausch <stefano@rausch-e.net>
  * @version    SVN: $Id$
  * @link       http://pear.php.net/package/ScriptReorganizer
@@ -15,25 +13,31 @@
  * @filesource
  */
 
-return;
-
 /**
- * PHP 5 error handling mechanism
+ * PEAR's base exception class
  *
- * @package    Dependencies
- * @subpackage PEAR
- * @link       http://pear.php.net/package/PEAR
+ * @package Dependencies
+ * @link    http://pear.php.net/package/PEAR
  */
 class PEAR_Exception {}
 
 /**
- * Create and use PHP Archive files
+ * PHP Archive file creator
  *
- * @package    Dependencies
- * @subpackage PHP_Archive
- * @link       http://pear.php.net/package/PHP_Archive
+ * @package Dependencies
+ * @link    http://pear.php.net/package/PHP_Archive
  */
 class PHP_Archive_Creator {}
+
+/**#@+
+ * PHP extension: Bytecode Compiler
+ *
+ * @link    http://pecl.php.net/package/BCompiler
+ */
+function bcompiler_write_header() {}
+function bcompiler_write_file() {}
+function bcompiler_write_footer() {}
+/**#@-*/
 
 /*
  * Local variables:
