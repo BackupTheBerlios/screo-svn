@@ -38,15 +38,16 @@
  */
 interface ScriptReorganizer_Strategy
 {
-    // {{{ public function reformat( & $content )
+    // {{{ public function reformat( & $content, $eol )
     
     /**
      * Performs the main reorganization of the script's content
      *
      * @param  string &$content a string representing the script's content
+     * @param  string $eol a string representing the EOL identifier to use
      * @return string a string representing the reorganized content
      */
-    public function reformat( & $content );
+    public function reformat( & $content, $eol );
     
     // }}}
 }

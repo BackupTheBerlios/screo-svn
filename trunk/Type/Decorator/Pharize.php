@@ -85,7 +85,7 @@ class ScriptReorganizer_Type_Decorator_Pharize extends ScriptReorganizer_Type_De
         
         if ( $type instanceof ScriptReorganizer_Type_Decorator_Pharize ) {
             $constraint = 'Pharize-Decorator';
-        } else if ( class_exists( 'ScriptReorganizer_Type_Decorator_Bcompile' ) ) {
+        } else if ( class_exists( 'ScriptReorganizer_Type_Decorator_Bcompile', false ) ) {
             if ( $type instanceof ScriptReorganizer_Type_Decorator_Bcompile ) {
                 $constraint = 'Bcompile-Decorator';
             }

@@ -24,9 +24,10 @@ class ScriptReorganizer_Tests_Type_Decorator_AddHeaderTest extends PHPUnit2_Fram
     {
         $this->header = '/* HEADER */' . PHP_EOL . PHP_EOL;
         
+        $os = PHP_EOL == "\n" ? '-unix' : PHP_EOL == "\r" ? '-mac' : '';
         $rp = realpath( dirname( __FILE__ ) . '/../../files' ) . DIRECTORY_SEPARATOR;
         
-        $this->source = $rp . 'sample.php';
+        $this->source = $rp . 'sample' . $os . '.php';
         $this->target = $rp . 'headerScript.php';
     }
     

@@ -65,7 +65,7 @@ class ScriptReorganizer_Tests_Type_LibraryTest extends PHPUnit2_Framework_TestCa
     
     public function testPreventCyclicImports()
     {
-        $expected = '<?php' . PHP_EOL . PHP_EOL . "define( 'A', true ); define( 'B', true );" . PHP_EOL . PHP_EOL . '?>';
+        $expected = '<?php' . "\n" . "\n" . "define( 'A', true ); define( 'B', true );" . "\n" . "\n" . '?>';
         $library = new ScriptReorganizer_Type_Library( new ScriptReorganizer_Strategy_Pack( true ) );
         $this->source = $this->target . 'ARequiresB.php';
         $this->target .= 'cyclicImports.php';

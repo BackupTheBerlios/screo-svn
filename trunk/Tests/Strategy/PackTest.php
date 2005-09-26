@@ -18,11 +18,12 @@ class ScriptReorganizer_Tests_Strategy_PackTest extends PHPUnit2_Framework_TestC
     public function testDefaultReformatSuccessful()
     {
         $content = file_get_contents( 'ScriptReorganizer/Tests/files/sample.php', true );
-        $expected = '<?php' . PHP_EOL
-            . ( include 'ScriptReorganizer/Tests/files/expectedDefaultPackedScript.php' ) . PHP_EOL . '?>';
+        $eol = $this->getEolStyle( $content );
+        $expected = $eol . '<?php' . $eol
+            . ( include 'ScriptReorganizer/Tests/files/expectedDefaultPackedScript.php' ) . $eol . '?>' . $eol;
         $strategy = new ScriptReorganizer_Strategy_Pack;
         
-        $this->assertTrue( $expected === $strategy->reformat( $content ) );
+        $this->assertTrue( $expected === $strategy->reformat( $content, $eol ) );
     }
     
     // }}}
@@ -31,10 +32,24 @@ class ScriptReorganizer_Tests_Strategy_PackTest extends PHPUnit2_Framework_TestC
     public function testOneLinerReformatSuccessful()
     {
         $content = file_get_contents( 'ScriptReorganizer/Tests/files/sample.php', true );
-        $expected = '<?php ' . ( include 'ScriptReorganizer/Tests/files/expectedOneLinerPackedScript.php' ) . ' ?>';
+        $eol = $this->getEolStyle( $content );
+        $expected = ' <?php ' . ( include 'ScriptReorganizer/Tests/files/expectedOneLinerPackedScript.php' ) . ' ?> ';
         $strategy = new ScriptReorganizer_Strategy_Pack( true );
         
-        $this->assertTrue( $expected === $strategy->reformat( $content ) );
+        $this->assertTrue( $expected === $strategy->reformat( $content, $eol ) );
+    }
+    
+    // }}}
+    
+    // {{{ private function getEolStyle( & $content )
+    
+    private function getEolStyle( & $content )
+    {
+        foreach ( array( "\r\n", "\n", "\r" ) as $eol ) {
+            if ( false !== strpos( $content, $eol ) ) {
+                return $eol;
+            }
+        }
     }
     
     // }}}

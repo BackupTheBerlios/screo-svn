@@ -76,7 +76,7 @@ class ScriptReorganizer_Type_Decorator_Bcompile extends ScriptReorganizer_Type_D
         
         if ( $type instanceof ScriptReorganizer_Type_Decorator_Bcompile ) {
             $constraint = 'Bcompile-Decorator';
-        } else if ( class_exists( 'ScriptReorganizer_Type_Decorator_Pharize' ) ) {
+        } else if ( class_exists( 'ScriptReorganizer_Type_Decorator_Pharize', false ) ) {
             if ( $type instanceof ScriptReorganizer_Type_Decorator_Pharize ) {
                 $constraint = 'Pharize-Decorator';
             }
@@ -112,7 +112,7 @@ class ScriptReorganizer_Type_Decorator_Bcompile extends ScriptReorganizer_Type_D
     {
         $source = md5($file) . '.source';
         
-        file_put_contents( $source, $this->getContent() );
+        @file_put_contents( $source, '<?php ' . $this->getContent() . ' ?>' );
         
         if ( is_file( $source ) ) {
             if ( $target = @fopen( $file, 'wb' ) ) {
@@ -120,7 +120,7 @@ class ScriptReorganizer_Type_Decorator_Bcompile extends ScriptReorganizer_Type_D
                 bcompiler_write_file( $target, $source );
                 bcompiler_write_footer( $target );
                 
-                fclose( $target );
+                @fclose( $target );
             }
             
             unlink( $source );

@@ -60,13 +60,9 @@ abstract class ScriptReorganizer_Type
     {
         $this->strategy = $strategy;
         
-        $this->hashBangIdentifier = '"^[ \t' . PHP_EOL . ']*(\#\![^' . PHP_EOL . ']+'
-            . PHP_EOL . ')"';
-        
-        $heredocs  = '"([<]{3}[ \t]*(\w+)[' . PHP_EOL . ']';
-        $heredocs .= '(.|[' . PHP_EOL . '])+?\2;?)[' . PHP_EOL . ']"';
-        
-        $this->heredocsIdentifier = $heredocs;
+        $this->endOfLineIdentifiers = array(
+            'win' => "\r\n", 'unix' => "\n", 'mac' => "\r"
+        );
     }
     
     // }}}
@@ -114,6 +110,14 @@ abstract class ScriptReorganizer_Type
             );
         }
         
+        $eol = $this->getEolIdentifier( $content );
+        
+        $this->initializeIdentifiers( $eol );
+        
+        if ( $eol != $this->endOfLine ) {
+            $content = str_replace( $eol, $this->endOfLine, $content );
+        }
+        
         if ( preg_match( $this->hashBangIdentifier, $content, $match ) ) {
             $content = str_replace( $match[0], '', $content );
             
@@ -143,7 +147,7 @@ abstract class ScriptReorganizer_Type
         $content = $this->getContent();
         
         $this->maskHeredocs( $content );
-        $content = $this->strategy->reformat( $content );
+        $content = trim( $this->strategy->reformat( $content, $this->endOfLine ) );
         $this->unmaskHeredocs( $content );
         
         $this->setContent( $content );
@@ -162,14 +166,16 @@ abstract class ScriptReorganizer_Type
     public function save( $file )
     {
         $content  = $this->hashBang;
-        $content .= '<?php' . PHP_EOL . PHP_EOL . $this->getContent() . PHP_EOL
-            . PHP_EOL . '?>';
+        $content .= '<?php' . $this->endOfLine . $this->endOfLine . $this->getContent()
+            . $this->endOfLine . $this->endOfLine . '?>';
         
         if ( false === @file_put_contents( $file, $content ) ) {
             throw new ScriptReorganizer_Type_Exception(
                 'File ' . $file . ' is not writable'
             );
         }
+        
+        $this->endOfLine = '';
     }
     
     // }}}
@@ -188,6 +194,52 @@ abstract class ScriptReorganizer_Type
     
     // }}}
     
+    // {{{ protected function getEolIdentifier( & $content )
+    
+    /**
+     * Detects the currently used end-of-line identifier
+     *
+     * @param  string &$content a string representing the script's content
+     * @return string a string representing the end-of-line identifier found in the
+     *         script's content
+     * @since  Method available sind Release 0.3.0
+     */
+    protected function getEolIdentifier( & $content )
+    {
+        foreach ( $this->endOfLineIdentifiers as $eol ) {
+            if ( false !== strpos( $content, $eol ) ) {
+                return $eol;
+            }
+        }
+    }
+    
+    // }}}
+    
+    // {{{ private function initializeIdentifiers( $eol )
+    
+    /**
+     * Sets the values of internal identifiers for future use
+     *
+     * @param  string $eol a string representing an end-of-line identifier
+     * @return void
+     * @since  Method available sind Release 0.3.0
+     */
+    private function initializeIdentifiers( $eol )
+    {
+        if ( !$this->endOfLine ) {
+            $this->endOfLine = $eol;
+            
+            $this->hashBangIdentifier = '"^[ \t' . $eol . ']*(\#\![^' . $eol . ']+'
+                 . $eol . ')"';
+            
+            $heredocs  = '"([<]{3}[ \t]*(\w+)[' . $eol . ']';
+            $heredocs .= '(.|[' . $eol . '])+?\2;?)[' . $eol . ']"';
+            
+            $this->heredocsIdentifier = $heredocs;
+        }
+    }
+    
+    // }}}
     // {{{ private function maskHeredocs( & $content )
     
     /**
@@ -209,11 +261,11 @@ abstract class ScriptReorganizer_Type
                 );
                 
                 preg_match( '"^[<]{3}[ \t]*(\w+)"', $heredoc, $identifier );
-                $heredocIndent = '"[' . PHP_EOL . ']([ \t]+)' . $identifier[1] . ';?$"';
+                $heredocIndent = '"[' . $this->endOfLine . ']([ \t]+)' . $identifier[1] . ';?$"';
                 
                 if ( preg_match( $heredocIndent, $heredoc, $indent ) ) {
                     $this->heredocs[1][$i-1] = str_replace(
-                        PHP_EOL . $indent[1], PHP_EOL, $heredoc
+                        $this->endOfLine . $indent[1], $this->endOfLine, $heredoc
                     );
                 }
             }
@@ -241,7 +293,7 @@ abstract class ScriptReorganizer_Type
             
             $content = str_replace(
                 $hd . ( $trailingSpace ? ' ' : '' ),
-                $heredoc . ( $trailingSpace ? PHP_EOL : '' ), $content
+                $heredoc . ( $trailingSpace ? $this->endOfLine : '' ), $content
             );
         }
     }
@@ -256,6 +308,20 @@ abstract class ScriptReorganizer_Type
      * @var string
      */
     private $content = '';
+    
+    /**
+     * Holds the end-of-line identifier currently being used
+     *
+     * @var string
+     */
+    private $endOfLine = '';
+    
+    /**
+     * Holds the end-of-line identifiers of known OSes
+     *
+     * @var array
+     */
+    private $endOfLineIdentifiers = null;
     
     /**
      * Holds the first found hash-bang directive

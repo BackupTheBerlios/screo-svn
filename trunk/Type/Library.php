@@ -44,14 +44,14 @@ require_once 'ScriptReorganizer/Type/Exception.php';
  * Converts a script file and all included/required files to a single library file
  * according to the {@link ScriptReorganizer_Strategy Strategy} to apply.
  *
+ * To avoid the processing of files' imports, which can change independently from the
+ * code base at any time, transform the respective statement from a static to a
+ * dynamic one, e.g. from <kbd>require_once 'configuration.php';</kbd> to
+ * <kbd>require_once 'configuration' . '.php';</kbd>.
+ *
  * If the advanced pack mode strategy is used for packaging, a non-ScriptReorganized
  * source code tree should be shipped together with the optimized one, to enable
  * third parties to track down undiscoverd bugs.
- *
- * To avoid the processing of files' imports, which can change independently from the
- * code base at any time, transform the respective statement from a static to a
- * dynamic one, e.g. <kbd>require_once 'configuration.php';</kbd> to
- * <i>require_once 'configuration' . '.php';</i>.
  *
  * @category   Tools
  * @package    ScriptReorganizer
@@ -76,11 +76,6 @@ class ScriptReorganizer_Type_Library extends ScriptReorganizer_Type
     {
         parent::__construct( $strategy );
         
-        $import  = '"(;|[' . PHP_EOL . '])(([ \t]*)(include|require)(_once)?';
-        $import .= '[ \t]*[\(]?[ \t' . PHP_EOL . ']*[\'\"]([^\'\"]+)[\'\"]';
-        $import .= '[ \t' . PHP_EOL . ']*[\)]?[ \t]*;)"';
-        
-        $this->importStaticIdentifier = $import;
         $this->imports = array();
     }
     
@@ -131,7 +126,13 @@ class ScriptReorganizer_Type_Library extends ScriptReorganizer_Type
         $content = $this->getContent();
         $resolvedContents = array();
         
-        if ( preg_match_all( $this->importStaticIdentifier, $content, $matches ) ) {
+        $eol = $this->getEolIdentifier( $content );
+        
+        $staticImport  = '"(;|[' . $eol . '])(([ \t]*)(include|require)(_once)?';
+        $staticImport .= '[ \t]*[\(]?[ \t' . $eol . ']*[\'\"]([^\'\"]+)[\'\"]';
+        $staticImport .= '[ \t' . $eol . ']*[\)]?[ \t]*;)"';
+        
+        if ( preg_match_all( $staticImport, $content, $matches ) ) {
             $i = 0;
             
             foreach ( $matches[6] as $file ) {
@@ -148,7 +149,7 @@ class ScriptReorganizer_Type_Library extends ScriptReorganizer_Type
                 $indent = $matches[3][$i];
                 
                 $resolvedContent = str_replace(
-                    PHP_EOL, PHP_EOL . $indent, $resolvedContents[$i++]
+                    $eol, $eol . $indent, $resolvedContents[$i++]
                 );
                 
                 $staticIdentifier = '!' . str_replace(
@@ -242,14 +243,6 @@ class ScriptReorganizer_Type_Library extends ScriptReorganizer_Type
     // }}}
     
     // {{{ private properties
-    
-    /**
-     * Holds the regular expression for the static import statements
-     * <kbd>include[_once]</kbd> and <kbd>require[_once]</kbd>
-     *
-     * @var string
-     */
-    private $importStaticIdentifier = '';
     
     /**
      * Holds the list of already imported file names

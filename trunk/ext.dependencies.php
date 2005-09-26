@@ -14,7 +14,7 @@
  */
 
 /**
- * PEAR's base exception class
+ * PEAR's Base Exception Class
  *
  * @package Dependencies
  * @link    http://pear.php.net/package/PEAR
@@ -22,7 +22,7 @@
 class PEAR_Exception {}
 
 /**
- * PHP Archive file creator
+ * PEAR's PHP Archive File Creator
  *
  * @package Dependencies
  * @link    http://pear.php.net/package/PHP_Archive
@@ -30,7 +30,7 @@ class PEAR_Exception {}
 class PHP_Archive_Creator {}
 
 /**#@+
- * PHP extension: Bytecode Compiler
+ * PECL's PHP Bytecode Compiler
  *
  * @link    http://pecl.php.net/package/BCompiler
  */

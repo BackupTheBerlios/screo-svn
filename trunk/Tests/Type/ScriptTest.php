@@ -22,9 +22,10 @@ class ScriptReorganizer_Tests_Type_ScriptTest extends PHPUnit2_Framework_TestCas
     
     public function setUp()
     {
+        $os = PHP_EOL == "\n" ? '-unix' : PHP_EOL == "\r" ? '-mac' : '';
         $rp = realpath( dirname( __FILE__ ) . '/../files' ) . DIRECTORY_SEPARATOR;
         
-        $this->source = $rp . 'sample.php';
+        $this->source = $rp . 'sample' . $os . '.php';
         $this->target = $rp;
     }
     
@@ -165,9 +166,9 @@ class ScriptReorganizer_Tests_Type_ScriptTest extends PHPUnit2_Framework_TestCas
     
     private function xRescript( ScriptReorganizer_Type_Script $script, & $expected )
     {
-        $script->load( $this->source);
+        $script->load( $this->source );
         $script->reformat();
-        $script->save( $this->target);
+        $script->save( $this->target );
         
         $this->assertTrue( $expected === file_get_contents( $this->target ) );
     }

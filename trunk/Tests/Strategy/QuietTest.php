@@ -18,10 +18,24 @@ class ScriptReorganizer_Tests_Strategy_QuietTest extends PHPUnit2_Framework_Test
     public function testReformatSuccessful()
     {
         $content = file_get_contents( 'ScriptReorganizer/Tests/files/sample.php', true );
-        $expected = '<?php' . ( include 'ScriptReorganizer/Tests/files/expectedQuietedScript.php' ) . '?>';
+        $eol = $this->getEolStyle( $content );
+        $expected = $eol . '<?php' . ( include 'ScriptReorganizer/Tests/files/expectedQuietedScript.php' ) . '?>' . $eol;
         $strategy = new ScriptReorganizer_Strategy_Quiet;
         
-        $this->assertTrue( $expected === $strategy->reformat( $content ) );
+        $this->assertTrue( $expected === $strategy->reformat( $content, $eol ) );
+    }
+    
+    // }}}
+    
+    // {{{ private function getEolStyle( & $content )
+    
+    private function getEolStyle( & $content )
+    {
+        foreach ( array( "\r\n", "\n", "\r" ) as $eol ) {
+            if ( false !== strpos( $content, $eol ) ) {
+                return $eol;
+            }
+        }
     }
     
     // }}}

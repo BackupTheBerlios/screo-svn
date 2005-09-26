@@ -67,7 +67,7 @@ class ScriptReorganizer_Type_Decorator_AddHeader extends ScriptReorganizer_Type_
      */
     public function __construct( ScriptReorganizer_Type $type, $header = '' )
     {
-        if ( class_exists( 'ScriptReorganizer_Type_Decorator_Pharize' ) ) {
+        if ( class_exists( 'ScriptReorganizer_Type_Decorator_Pharize', false ) ) {
             if ( $type instanceof ScriptReorganizer_Type_Decorator_Pharize ) {
                 throw new ScriptReorganizer_Type_Decorator_Exception(
                     'Decoration of a directly sequencing Pharize-Decorator not allowed'

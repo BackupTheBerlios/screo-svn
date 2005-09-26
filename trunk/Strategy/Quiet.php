@@ -57,29 +57,28 @@ class ScriptReorganizer_Strategy_Quiet implements ScriptReorganizer_Strategy
      */
     public function __construct()
     {
-        self::$identifiers = array(
-            'multiLineComments'
-                => '"[{};,' . PHP_EOL . ']([ \t]*/\*(.|[' . PHP_EOL . '])*?\*/)"',
-            'singleLineComments'
-                => '"[{};,' . PHP_EOL . ']([ \t]*//[^' . PHP_EOL . ']*)"'
-        );
-        
         $this->route = new ScriptReorganizer_Strategy_Route;
     }
     
     // }}}
     
-    // {{{ public function reformat( & $content )
+    // {{{ public function reformat( & $content, $eol )
     
     /**
      * Performs the main reorganization of the script's content
      *
      * @param  string &$content a string representing the script's content
+     * @param  string $eol a string representing the EOL identifier to use
      * @return string a string representing the reorganized content
      */
-    public function reformat( & $content )
+    public function reformat( & $content, $eol )
     {
-        foreach ( self::$identifiers as $identifier ) {
+        $identifiers = array(
+            'multiLineComments' => '"[{};,' . $eol . ']([ \t]*/\*(.|[' . $eol . '])*?\*/)"',
+            'singleLineComments' => '"[{};,' . $eol . ']([ \t]*//[^' . $eol . ']*)"'
+        );
+        
+        foreach ( $identifiers as $identifier ) {
             if ( preg_match_all( $identifier, $content, $matches ) ) {
                 foreach ( $matches[1] as $comment ) {
                     $content = str_replace( $comment, '', $content );
@@ -87,7 +86,7 @@ class ScriptReorganizer_Strategy_Quiet implements ScriptReorganizer_Strategy
             }
         }
         
-        return $this->route->reformat( $content );
+        return $this->route->reformat( $content, $eol );
     }
     
     // }}}
@@ -100,13 +99,6 @@ class ScriptReorganizer_Strategy_Quiet implements ScriptReorganizer_Strategy
      * @var ScriptReorganizer_Strategy_Route
      */
     private $route = null;
-    
-    /**
-     * Holds the comment identifiers to process
-     *
-     * @var array
-     */
-    private static $identifiers = null;
     
     // }}}
 }

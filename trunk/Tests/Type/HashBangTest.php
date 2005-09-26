@@ -20,9 +20,10 @@ class ScriptReorganizer_Tests_Type_HashBangTest extends PHPUnit2_Framework_TestC
     
     public function setUp()
     {
+        $os = PHP_EOL == "\n" ? '-unix' : PHP_EOL == "\r" ? '-mac' : '';
         $rp = realpath( dirname( __FILE__ ) . '/../files' ) . DIRECTORY_SEPARATOR;
         
-        $this->source = $rp . 'hashBang.php';
+        $this->source = $rp . 'hashBang' . $os . '.php';
         $this->target = $rp;
     }
     

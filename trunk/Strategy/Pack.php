@@ -46,17 +46,12 @@ require_once 'ScriptReorganizer/Strategy/Quiet.php';
  * <b>Warning</b>: With ScriptReorganizer optimized source code the tracking of
  * report error messages of the PHP Engine will definitively get cumbersome, when the
  * advanced mode of the Pack strategy is applied. Reason being: all statements are
- * organized on one line only. It is crucial to throughout test (not only unit test)
- * the code after optimizing it with the advanced pack mode of this strategy and
- * before building a release to deploy.
+ * organized on one line only. It is crucial to throughout test again - not only unit
+ * test - the code after optimizing it and before building a release to deploy.
  *
- * Suggested practice to follow:
- * <ol>
- * <li>Reorganization of the source applying the default pack mode.</li>
- * <li>Running of all tests.</li>
- * <li>Reorganization of the source applying the advanced pack mode, followed by the
- * final deployment.</li>
- * </ol>
+ * If the advanced pack mode strategy is used for packaging, a non-ScriptReorganized
+ * source code tree should be shipped together with the optimized one, to enable
+ * third parties to track down undiscoverd bugs.
  *
  * @category   Tools
  * @package    ScriptReorganizer
@@ -86,30 +81,31 @@ class ScriptReorganizer_Strategy_Pack implements ScriptReorganizer_Strategy
     
     // }}}
     
-    // {{{ public function reformat( & $content )
+    // {{{ public function reformat( & $content, $eol )
     
     /**
      * Performs the main reorganization of the script's content
      *
      * @param  string &$content a string representing the script's content
+     * @param  string $eol a string representing the EOL identifier to use
      * @return string a string representing the reorganized content
      */
-    public function reformat( & $content )
+    public function reformat( & $content, $eol )
     {
         $multiSpacesAndOrTabs = '"[ \t]+"';
         
-        $result = $this->quiet->reformat( $content );
+        $result = $this->quiet->reformat( $content, $eol );
         
         if ( $this->oneLiner ) {
-            $result = str_replace( PHP_EOL, ' ', $result );
+            $result = str_replace( $eol, ' ', $result );
         } else {
-            $result = str_replace( PHP_EOL . PHP_EOL, PHP_EOL, $result );
-            $result = preg_replace( '"[' . PHP_EOL . ']{2}[ \t]+"', PHP_EOL , $result );
+            $result = str_replace( $eol . $eol, $eol, $result );
+            $result = preg_replace( '"[' . $eol . ']{2}[ \t]+"', $eol , $result );
         }
         
         $result = preg_replace( $multiSpacesAndOrTabs, ' ', $result );
         
-        return trim( $result );
+        return $result;
     }
     
     // }}}
