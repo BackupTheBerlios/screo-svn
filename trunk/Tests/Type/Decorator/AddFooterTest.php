@@ -24,7 +24,7 @@ class ScriptReorganizer_Tests_Type_Decorator_AddFooterTest extends PHPUnit2_Fram
     {
         $this->footer = PHP_EOL . PHP_EOL . '/* FOOTER */';
         
-        $os = PHP_EOL == "\n" ? '-unix' : PHP_EOL == "\r" ? '-mac' : '';
+        $os = PHP_EOL == "\r\n" ? '-win' : ( PHP_EOL == "\n" ? '-unix' : '-mac' );
         $rp = realpath( dirname( __FILE__ ) . '/../../files' ) . DIRECTORY_SEPARATOR;
         
         $this->source = $rp . 'sample' . $os . '.php';

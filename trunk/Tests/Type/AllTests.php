@@ -18,6 +18,7 @@ class ScriptReorganizer_Tests_Type_AllTests
         
         $suite->addTestFile( 'ScriptReorganizer/Tests/Type/ScriptTest.php' );
         $suite->addTestFile( 'ScriptReorganizer/Tests/Type/LibraryTest.php' );
+        $suite->addTestFile( 'ScriptReorganizer/Tests/Type/EolTest.php' );
         $suite->addTestFile( 'ScriptReorganizer/Tests/Type/HashBangTest.php' );
         $suite->addTestFile( 'ScriptReorganizer/Tests/Type/HeredocTest.php' );
         

@@ -154,9 +154,11 @@ class ScriptReorganizer_Tests_Type_Decorator_PharizeTest extends PHPUnit2_Framew
     
     public function testPharCreationSuccessful()
     {
+        $os = PHP_EOL == "\r\n" ? '-win' : ( PHP_EOL == "\n" ? '-unix' : '-mac' );
+        
         $files = array(
             $this->path . 'expectedDefaultPackedLibrary.php' => 'defaultPackedLibrary.php',
-            $this->path . 'sample.php' => 'script/defaultPackedScript.php',
+            $this->path . 'sample' . $os . '.php' => 'script/defaultPackedScript.php',
         );
         
         $this->archive->loadFiles( $files );

@@ -13,17 +13,38 @@ require_once 'ScriptReorganizer/Strategy/Pack.php';
 
 class ScriptReorganizer_Tests_Strategy_PackTest extends PHPUnit2_Framework_TestCase
 {
+    // {{{ public function setUp()
+    
+    public function setUp()
+    {
+        $os = PHP_EOL == "\r\n" ? '-win' : ( PHP_EOL == "\n" ? '-unix' : '-mac' );
+        $rp = realpath( dirname( __FILE__ ) . '/../files' ) . DIRECTORY_SEPARATOR;
+        $source = $rp . 'sample' . $os . '.php';
+        
+        $this->content = file_get_contents( $source );
+        $this->eol = $this->getEolStyle( $this->content );
+    }
+    
+    // }}}
+    // {{{ public function tearDown
+    
+    public function tearDown()
+    {
+        unset( $this->content );
+        unset( $this->eol );
+    }
+    
+    // }}}
+    
     // {{{ public fundtion testDefaultReformatSuccessful()
     
     public function testDefaultReformatSuccessful()
     {
-        $content = file_get_contents( 'ScriptReorganizer/Tests/files/sample.php', true );
-        $eol = $this->getEolStyle( $content );
-        $expected = $eol . '<?php' . $eol
-            . ( include 'ScriptReorganizer/Tests/files/expectedDefaultPackedScript.php' ) . $eol . '?>' . $eol;
+        $expected = $this->eol . '<?php' . $this->eol
+            . ( include 'ScriptReorganizer/Tests/files/expectedDefaultPackedScript.php' ) . $this->eol . '?>' . $this->eol;
         $strategy = new ScriptReorganizer_Strategy_Pack;
         
-        $this->assertTrue( $expected === $strategy->reformat( $content, $eol ) );
+        $this->assertTrue( $expected === $strategy->reformat( $this->content, $this->eol ) );
     }
     
     // }}}
@@ -31,12 +52,10 @@ class ScriptReorganizer_Tests_Strategy_PackTest extends PHPUnit2_Framework_TestC
     
     public function testOneLinerReformatSuccessful()
     {
-        $content = file_get_contents( 'ScriptReorganizer/Tests/files/sample.php', true );
-        $eol = $this->getEolStyle( $content );
         $expected = ' <?php ' . ( include 'ScriptReorganizer/Tests/files/expectedOneLinerPackedScript.php' ) . ' ?> ';
         $strategy = new ScriptReorganizer_Strategy_Pack( true );
         
-        $this->assertTrue( $expected === $strategy->reformat( $content, $eol ) );
+        $this->assertTrue( $expected === $strategy->reformat( $this->content, $this->eol ) );
     }
     
     // }}}
@@ -51,6 +70,13 @@ class ScriptReorganizer_Tests_Strategy_PackTest extends PHPUnit2_Framework_TestC
             }
         }
     }
+    
+    // }}}
+    
+    // {{{ private properties
+    
+    private $content = '';
+    private $eol = '';
     
     // }}}
 }

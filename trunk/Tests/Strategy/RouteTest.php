@@ -17,7 +17,8 @@ class ScriptReorganizer_Tests_Strategy_RouteTest extends PHPUnit2_Framework_Test
     
     public function testReformatSuccessful()
     {
-        $content = file_get_contents( 'ScriptReorganizer/Tests/files/sample.php', true );
+        $os = PHP_EOL == "\r\n" ? '-win' : ( PHP_EOL == "\n" ? '-unix' : '-mac' );
+        $content = file_get_contents( 'ScriptReorganizer/Tests/files/sample' . $os . '.php', true );
         $eol = $this->getEolStyle( $content );
         $expected = $eol . '<?php' . ( include 'ScriptReorganizer/Tests/files/expectedRoutedScript.php' ) . '?>' . $eol;
         $strategy = new ScriptReorganizer_Strategy_Route;

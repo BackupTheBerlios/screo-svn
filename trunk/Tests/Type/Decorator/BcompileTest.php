@@ -90,8 +90,10 @@ class ScriptReorganizer_Tests_Type_Decorator_BcompileTest extends PHPUnit2_Frame
     
     public function testSavingBytecodeUnsuccessful()
     {
+        $os = PHP_EOL == "\r\n" ? '-win' : ( PHP_EOL == "\n" ? '-unix' : '-mac' );
+        
         try {
-            $this->bytecode->load( $this->path . 'sample.php' );
+            $this->bytecode->load( $this->path . 'sample' . $os . '.php' );
             $this->bytecode->save( $this->path . '\!?' );
             $this->fail( 'Exception not thrown' );
         } catch ( ScriptReorganizer_Type_Decorator_Exception $e ) {
@@ -104,7 +106,9 @@ class ScriptReorganizer_Tests_Type_Decorator_BcompileTest extends PHPUnit2_Frame
     
     public function testBytecodeCreationSuccessful()
     {
-        $this->bytecode->load( $this->path . 'sample.php' );
+        $os = PHP_EOL == "\r\n" ? '-win' : ( PHP_EOL == "\n" ? '-unix' : '-mac' );
+        
+        $this->bytecode->load( $this->path . 'sample' . $os . '.php' );
         $this->bytecode->save( $this->target );
         
         $this->assertTrue( true === is_file( $this->target ) );

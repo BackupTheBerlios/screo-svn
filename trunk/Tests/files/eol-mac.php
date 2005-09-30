@@ -1,0 +1,1 @@
+<?php/* * If imported as the primary file for optimization the MACINTOSH EOL style will be * used. */print 'Macintosh EOL style used.';require_once 'ScriptReorganizer/Tests/files/eol-unix.php';require_once 'ScriptReorganizer/Tests/files/eol-win.php';?>
