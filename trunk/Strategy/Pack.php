@@ -99,8 +99,8 @@ class ScriptReorganizer_Strategy_Pack implements ScriptReorganizer_Strategy
         if ( $this->oneLiner ) {
             $result = str_replace( $eol, ' ', $result );
         } else {
+            $result = preg_replace( '"[' . $eol . ']+[ \t]+"', $eol , $result );
             $result = str_replace( $eol . $eol, $eol, $result );
-            $result = preg_replace( '"[' . $eol . ']{2}[ \t]+"', $eol , $result );
         }
         
         $result = preg_replace( $multiSpacesAndOrTabs, ' ', $result );
