@@ -75,7 +75,7 @@ class ScriptReorganizer_Tests_Type_ScriptTest extends PHPUnit2_Framework_TestCas
             copy( $this->source, $this->target );
         }
         
-        chmod( $this->target, 0100 );
+        @chmod( $this->target, 0100 );
         
         try {
             $script->load( $this->target );
@@ -84,7 +84,7 @@ class ScriptReorganizer_Tests_Type_ScriptTest extends PHPUnit2_Framework_TestCas
             $this->assertContains( 'is not readable', $e->getMessage() );
         }
         
-        chmod( $this->target, 0700 );
+        @chmod( $this->target, 0700 );
     }
     
     // }}}

@@ -110,7 +110,7 @@ class ScriptReorganizer_Type_Decorator_Bcompile extends ScriptReorganizer_Type_D
      */
     public function save( $file )
     {
-        $source = md5($file) . '.source';
+        $source = 'source.' . md5($file);
         
         @file_put_contents( $source, '<?php ' . $this->getContent() . ' ?>' );
         

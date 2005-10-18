@@ -242,7 +242,7 @@ class ScriptReorganizer_Type_Decorator_Pharize extends ScriptReorganizer_Type_De
             );
         }
         
-        $archive->savePhar( $file );
+        @$archive->savePhar( $file );
         
         if ( !is_file( $file ) ) {
             throw new ScriptReorganizer_Type_Decorator_Exception(

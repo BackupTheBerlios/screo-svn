@@ -129,10 +129,12 @@ class ScriptReorganizer_Type_Library extends ScriptReorganizer_Type
         $eol = $this->getEolIdentifier( $content );
         
         $staticImport  = '"(;|[' . $eol . '])(([ \t]*)(include|require)(_once)?';
-        $staticImport .= '[ \t]*[\(]?[ \t' . $eol . ']*[\'\"]([^\'\"]+)[\'\"]';
-        $staticImport .= '[ \t' . $eol . ']*[\)]?[ \t]*;)"';
+        $staticImport .= '[ \t]*\(?[ \t' . $eol . ']*[\'\"]([^\'\"]+)[\'\"]';
+        $staticImport .= '[ \t' . $eol . ']*\)?[ \t]*;)"';
         
-        if ( preg_match_all( $staticImport, $content, $matches ) ) {
+        // starting with PHPUnit2-2.3.0: Compilation failed: unmatched parentheses at offset 90?
+        
+        if ( @preg_match_all( $staticImport, $content, $matches ) ) {
             $i = 0;
             
             foreach ( $matches[6] as $file ) {

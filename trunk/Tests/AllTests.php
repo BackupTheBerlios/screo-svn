@@ -6,7 +6,7 @@
  * $Id$
  */
 
-require_once 'PHPUnit2/Extensions/TestFileLoader.php';
+require_once 'PHPUnit2/Framework/TestSuite.php';
 
 class ScriptReorganizer_Tests_AllTests
 {
@@ -14,7 +14,7 @@ class ScriptReorganizer_Tests_AllTests
     
     public static function suite()
     {
-        $suite = new PHPUnit2_Extensions_TestFileLoader;
+        $suite = new PHPUnit2_Framework_TestSuite;
         
         $suite->addTestFile( 'ScriptReorganizer/Tests/Strategy/AllTests.php' );
         $suite->addTestFile( 'ScriptReorganizer/Tests/Type/AllTests.php' );
