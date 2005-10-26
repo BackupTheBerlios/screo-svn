@@ -78,6 +78,7 @@ echo PHP_EOL . '- bytes used for the compiled library: ' . $compiledLibrary
     . ' (' . ( round( $compiledLibrary / $originalSize * 100, 2 ) ) . '%)';
 
 echo PHP_EOL;
+
 /*
  * Local variables:
  * tab-width: 4
