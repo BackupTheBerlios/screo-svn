@@ -92,7 +92,7 @@ if ( !file_exists( $source ) ) {
  *
  * ScriptReorganizer's added value: a library is packaged - i.e. a many-to-one file
  * optimization is performed - and compiled with the BCompiler extension for
- * achieving speed gain.
+ * achieving even more speed gain.
  */
 
 if ( extension_loaded( 'bcompiler' ) ) {
