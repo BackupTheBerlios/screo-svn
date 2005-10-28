@@ -5,7 +5,6 @@
 <font NAME="Verdana" SIZE="11"/>
 <node CREATED="1120583159605" ID="Freemind_Link_695304407" MODIFIED="1122056084732" TEXT="tracker" VSHIFT="20">
 <icon BUILTIN="messagebox_warning"/>
-<node CREATED="1121968114437" ID="Freemind_Link_743411504" MODIFIED="1127660433416" TEXT="docs/API&#xa;create api.tar.gz"/>
 <node CREATED="1127659985682" ID="Freemind_Link_1225901868" MODIFIED="1127659999051" TEXT="ScriptReorganizer_Type_Decorator_Pharize&#xa;implement loadDirectory() - SPL?"/>
 <node CREATED="1126817710514" ID="Freemind_Link_1067112804" MODIFIED="1127660454186" TEXT="docs/manual&#xa;create DocBook files (tar.gz) and PDF output"/>
 <node CREATED="1120592532298" FOLDED="true" ID="Freemind_Link_576779230" MODIFIED="1120838844144" TEXT="0.2.1 " VSHIFT="2">
@@ -18,6 +17,7 @@
 <node COLOR="#ff0000" CREATED="1120646118573" ID="Freemind_Link_32333257" MODIFIED="1127660296359" TEXT="0.2.1: ScriptReorganizer_Type&#xa;cover all Heredocs variants according to http://php.net/manual/en/language.types.string.php">
 <font NAME="Verdana" SIZE="10"/>
 </node>
+<node CREATED="1121968114437" ID="Freemind_Link_743411504" MODIFIED="1127660433416" TEXT="docs/API&#xa;create api.tar.gz"/>
 <node CREATED="1126817309067" ID="Freemind_Link_1841479405" MODIFIED="1127660296349" TEXT="(all) files&#xa;comply with PEAR&apos;s file format EOL-wise">
 <font NAME="Verdana" SIZE="10"/>
 </node>
