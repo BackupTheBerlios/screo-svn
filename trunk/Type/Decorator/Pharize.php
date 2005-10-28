@@ -257,7 +257,7 @@ class ScriptReorganizer_Type_Decorator_Pharize extends ScriptReorganizer_Type_De
     /**
      * Sets the scripts' contents currently being reorganized
      *
-     * @param  string $targets an associative array holding all files' locations in
+     * @param  array $targets an associative array holding all files' locations in
      *         the PHP Archive and the corresponding contents
      * @param  boolean $magicRequire boolean true, for phar-stream activation within
      *         the PHP Arcive; otherwise false
