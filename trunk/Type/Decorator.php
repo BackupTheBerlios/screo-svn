@@ -71,19 +71,6 @@ abstract class ScriptReorganizer_Type_Decorator extends ScriptReorganizer_Type
     
     // }}}
     
-    // {{{ public function getContent()
-    
-    /**
-     * Gets the script's content currently being reorganized
-     *
-     * @return string a string representing the script's content
-     */
-    public function getContent()
-    {
-        return $this->type->getContent();
-    }
-    
-    // }}}
     // {{{ public function load( $file )
     
     /**
@@ -128,17 +115,33 @@ abstract class ScriptReorganizer_Type_Decorator extends ScriptReorganizer_Type
     }
     
     // }}}
-    // {{{ public function setContent( $content )
+    
+    // {{{ package function _getContent()
+    
+    /**
+     * Gets the script's content currently being reorganized
+     *
+     * @visibility package restricted
+     * @return     string a string representing the script's content
+     */
+    public function _getContent()
+    {
+        return $this->type->_getContent();
+    }
+    
+    // }}}
+    // {{{ package function _setContent( $content )
     
     /**
      * Sets the script's content currently being reorganized
      *
-     * @param  string $content a string representing the content's replacement
-     * @return void
+     * @visibility package restricted
+     * @param      string $content a string representing the content's replacement
+     * @return     void
      */
-    public function setContent( $content )
+    public function _setContent( $content )
     {
-        $this->type->setContent( $content );
+        $this->type->_setContent( $content );
     }
     
     // }}}

@@ -104,7 +104,7 @@ class ScriptReorganizer_Tests_Type_Decorator_PharizeTest extends PHPUnit2_Framew
     public function testSetContentArrayException()
     {
         try {
-            $this->archive->setContent( array() );
+            $this->archive->_setContent( array() );
             $this->fail( 'Exception not thrown' );
         } catch ( ScriptReorganizer_Type_Decorator_Exception $e ) {
             $this->assertContains( 'array or empty', $e->getMessage() );
@@ -143,8 +143,8 @@ class ScriptReorganizer_Tests_Type_Decorator_PharizeTest extends PHPUnit2_Framew
     
     public function testSetAndGetContent()
     {
-        $this->archive->setContent( array( 'script.php' => 'content' ) );
-        $contents = $this->archive->getContent();
+        $this->archive->_setContent( array( 'script.php' => 'content' ) );
+        $contents = $this->archive->_getContent();
         
         $this->assertTrue( 'content' === $contents['script.php'] );
     }

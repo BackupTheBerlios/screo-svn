@@ -85,9 +85,7 @@ try {
 } catch ( ScriptReorganizer_Exception $e ) {
     $tempFile = $path . 'source/tempLibrary.php';
     
-    // the PHP tags are not mandatory
-    
-    file_put_contents( $tempFile, '<?php ' . $library->getContent() . ' ?>' );
+    $library->save( $tempFile );
     
     /*
      * A script type object has been used, for a many-to-one file optimization has

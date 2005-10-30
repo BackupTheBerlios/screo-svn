@@ -97,11 +97,11 @@ class ScriptReorganizer_Type_Library extends ScriptReorganizer_Type
         $baseDirectory = realpath( dirname( $file ) );
         $this->imports[] = $this->retrieveRealPath( $file, $baseDirectory );
         
-        $this->setContent( $this->resolveImports( $baseDirectory ) );
+        $this->_setContent( $this->resolveImports( $baseDirectory ) );
         
         $importException = '"< import of( file [^>]+)>"';
         
-        if ( preg_match_all( $importException, $this->getContent(), $matches ) ) {
+        if ( preg_match_all( $importException, $this->_getContent(), $matches ) ) {
             throw new ScriptReorganizer_Type_Exception(
                 'Import of' . PHP_EOL . '-' . ( implode( PHP_EOL . '-', $matches[1] ) )
             );
@@ -123,7 +123,7 @@ class ScriptReorganizer_Type_Library extends ScriptReorganizer_Type
      */
     private function resolveImports( $baseDirectory )
     {
-        $content = $this->getContent();
+        $content = $this->_getContent();
         $resolvedContents = array();
         
         $eol = $this->getEolIdentifier( $content );
@@ -191,7 +191,7 @@ class ScriptReorganizer_Type_Library extends ScriptReorganizer_Type
         
         if ( $importOnce ) {
             if ( in_array( $realFile, $this->imports ) ) {
-                $this->setContent( '' );
+                $this->_setContent( '' );
                 return 'will not be used';
             }
             
@@ -203,7 +203,7 @@ class ScriptReorganizer_Type_Library extends ScriptReorganizer_Type
         } catch ( scriptReorganizer_Type_Exception $e ) {
             $file = $baseDirectory . DIRECTORY_SEPARATOR . $file;
             
-            $this->setContent(
+            $this->_setContent(
                 '< import of file ' . $file . ' failed >'
             );
         }

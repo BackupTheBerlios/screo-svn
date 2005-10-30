@@ -106,7 +106,7 @@ class ScriptReorganizer_Type_Decorator_AddHeader extends ScriptReorganizer_Type_
         }
         
         parent::reformat();
-        $this->setContent( $this->header . $this->getContent() );
+        $this->_setContent( $this->header . $this->_getContent() );
     }
     
     // }}}

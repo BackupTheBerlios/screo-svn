@@ -5,8 +5,8 @@
 <font NAME="Verdana" SIZE="11"/>
 <node CREATED="1120583159605" ID="Freemind_Link_695304407" MODIFIED="1122056084732" TEXT="tracker" VSHIFT="20">
 <icon BUILTIN="messagebox_warning"/>
+<node CREATED="1126817710514" ID="Freemind_Link_1067112804" MODIFIED="1130709420621" TEXT="docs/manual&#xa;create DocBook files (tar.gz)"/>
 <node CREATED="1127659985682" ID="Freemind_Link_1225901868" MODIFIED="1127659999051" TEXT="ScriptReorganizer_Type_Decorator_Pharize&#xa;implement loadDirectory() - SPL?"/>
-<node CREATED="1126817710514" ID="Freemind_Link_1067112804" MODIFIED="1127660454186" TEXT="docs/manual&#xa;create DocBook files (tar.gz) and PDF output"/>
 <node CREATED="1120592532298" FOLDED="true" ID="Freemind_Link_576779230" MODIFIED="1120838844144" TEXT="0.2.1 " VSHIFT="2">
 <icon BUILTIN="button_ok"/>
 <node COLOR="#ff0000" CREATED="1120583193303" ID="Freemind_Link_1743084958" MODIFIED="1120757754877" TEXT="0.1.0 - V.Lascaux: ScriptReorganizer_Type_Library&#xa;handling of cyclic include_once/require_once is missing"/>
@@ -28,6 +28,8 @@
 <font NAME="Verdana" SIZE="10"/>
 </node>
 <node CREATED="1127661897851" ID="Freemind_Link_447160676" MODIFIED="1127661927935" TEXT="all decorators&#xa;disable the autoload feature of the class_exists check"/>
+<node CREATED="1129672780689" ID="Freemind_Link_1969271880" MODIFIED="1130702368458" TEXT="Upgrade to PHPUnit2-2.3.0&#xa;and remove PHPUnit2_Extensions_TestFileLoader dependency"/>
+<node CREATED="1130702191792" ID="Freemind_Link_976231192" MODIFIED="1130702296840" TEXT="getContent/setContent methods definitions and calls&#xa;mark as @visibility package restricted and prefix an underscore&#xa;- see http://pear.php.net/pepr/pepr-proposal-show.php?id=228"/>
 <node CREATED="1120646015434" ID="Freemind_Link_1457602716" MODIFIED="1127660296329" TEXT="Package.xml&#xa;comply with the official PEAR directory structure docs and tests-wise">
 <font NAME="Verdana" SIZE="10"/>
 </node>
@@ -46,7 +48,6 @@
 <font NAME="Verdana" SIZE="10"/>
 </node>
 <node CREATED="1127661666749" ID="Freemind_Link_1560586264" MODIFIED="1127661722960" TEXT="ScriptReorganizer_Type_Decorator_Pharize&#xa;add constraint: decoration of a directly sequencing Bcompile-Decorator not allowed"/>
-<node CREATED="1129672780689" ID="Freemind_Link_1969271880" MODIFIED="1129672837571" TEXT="Upgrade to PHPUnit2-2.3.0 and remove PHPUnit2_Extensions_TestFileLoader dependency"/>
 </node>
 </node>
 <node CREATED="1121866506347" ID="Freemind_Link_710125815" MODIFIED="1121866516872" TEXT="">

@@ -112,7 +112,7 @@ class ScriptReorganizer_Type_Decorator_Bcompile extends ScriptReorganizer_Type_D
     {
         $source = 'source.' . md5($file);
         
-        @file_put_contents( $source, '<?php ' . $this->getContent() . ' ?>' );
+        @file_put_contents( $source, '<?php ' . $this->_getContent() . ' ?>' );
         
         if ( is_file( $source ) ) {
             if ( $target = @fopen( $file, 'wb' ) ) {

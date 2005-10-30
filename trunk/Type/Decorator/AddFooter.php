@@ -106,7 +106,7 @@ class ScriptReorganizer_Type_Decorator_AddFooter extends ScriptReorganizer_Type_
         }
         
         parent::reformat();
-        $this->setContent( $this->getContent() . $this->footer );
+        $this->_setContent( $this->_getContent() . $this->footer );
     }
     
     // }}}

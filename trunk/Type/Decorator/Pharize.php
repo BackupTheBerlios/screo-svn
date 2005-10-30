@@ -105,21 +105,6 @@ class ScriptReorganizer_Type_Decorator_Pharize extends ScriptReorganizer_Type_De
     
     // }}}
     
-    // {{{ public function getContent()
-    
-    /**
-     * Gets the scripts' contents currently being reorganized
-     *
-     * @return array an associative array holding all files' locations in the PHP
-     *         Archive and the corresponding contents
-     * @since  Method available since Release 0.3.0
-     */
-    public function getContent()
-    {
-        return $this->files;
-    }
-    
-    // }}}
     // {{{ public function load( $source, $target, $magicRequire = false )
     
     /**
@@ -144,7 +129,7 @@ class ScriptReorganizer_Type_Decorator_Pharize extends ScriptReorganizer_Type_De
             );
         }
         
-        $content = parent::getContent();
+        $content = parent::_getContent();
         
         $this->loadContent( $content, $target, $magicRequire );
     }
@@ -195,9 +180,9 @@ class ScriptReorganizer_Type_Decorator_Pharize extends ScriptReorganizer_Type_De
     public function reformat()
     {
         foreach ( $this->files as $target => $content ) {
-            parent::setContent( $content );
+            parent::_setContent( $content );
             parent::reformat();
-            $this->files[$target] = parent::getContent();
+            $this->files[$target] = parent::_getContent();
         }
     }
     
@@ -252,20 +237,38 @@ class ScriptReorganizer_Type_Decorator_Pharize extends ScriptReorganizer_Type_De
     }
     
     // }}}
-    // {{{ public function setContent( $targets, $magicRequire = false )
+    
+    // {{{ package function _getContent()
+    
+    /**
+     * Gets the scripts' contents currently being reorganized
+     *
+     * @visibility package restricted
+     * @return     array an associative array holding all files' locations in the PHP
+     *             Archive and the corresponding contents
+     * @since      Method available since Release 0.3.0
+     */
+    public function _getContent()
+    {
+        return $this->files;
+    }
+    
+    // }}}
+    // {{{ package function _setContent( $targets, $magicRequire = false )
     
     /**
      * Sets the scripts' contents currently being reorganized
      *
-     * @param  array $targets an associative array holding all files' locations in
-     *         the PHP Archive and the corresponding contents
-     * @param  boolean $magicRequire boolean true, for phar-stream activation within
-     *         the PHP Arcive; otherwise false
-     * @return void
-     * @throws {@link ScriptReorganizer_Type_Decorator_Exception ScriptReorganizer_Type_Decorator_Exception}
-     * @since  Method available since Release 0.3.0
+     * @visibility package restricted
+     * @param      array $targets an associative array holding all files' locations in
+     *             the PHP Archive and the corresponding contents
+     * @param      boolean $magicRequire boolean true, for phar-stream activation within
+     *             the PHP Arcive; otherwise false
+     * @return     void
+     * @throws     {@link ScriptReorganizer_Type_Decorator_Exception ScriptReorganizer_Type_Decorator_Exception}
+     * @since      Method available since Release 0.3.0
      */
-    public function setContent( $targets, $magicRequire = false )
+    public function _setContent( $targets, $magicRequire = false )
     {
         if ( !is_array( $targets ) || empty( $targets ) ) {
             throw new ScriptReorganizer_Type_Decorator_Exception(

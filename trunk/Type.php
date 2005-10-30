@@ -78,19 +78,6 @@ abstract class ScriptReorganizer_Type
     
     // }}}
     
-    // {{{ public function getContent()
-    
-    /**
-     * Gets the script's content currently being reorganized
-     *
-     * @return string a string representing the script's content
-     */
-    public function getContent()
-    {
-        return $this->content;
-    }
-    
-    // }}}
     // {{{ public function load( $file )
     
     /**
@@ -130,7 +117,7 @@ abstract class ScriptReorganizer_Type
         $result = preg_replace( '"^<\?php"', '', $result );
         $result = preg_replace( '"\?>$"', '', $result );
         
-        $this->setContent( $result );
+        $this->_setContent( $result );
     }
     
     // }}}
@@ -144,13 +131,13 @@ abstract class ScriptReorganizer_Type
      */
     public function reformat()
     {
-        $content = $this->getContent();
+        $content = $this->_getContent();
         
         $this->maskHeredocs( $content );
         $content = trim( $this->strategy->reformat( $content, $this->endOfLine ) );
         $this->unmaskHeredocs( $content );
         
-        $this->setContent( $content );
+        $this->_setContent( $content );
     }
     
     // }}}
@@ -166,7 +153,7 @@ abstract class ScriptReorganizer_Type
     public function save( $file )
     {
         $content  = $this->hashBang;
-        $content .= '<?php' . $this->endOfLine . $this->endOfLine . $this->getContent()
+        $content .= '<?php' . $this->endOfLine . $this->endOfLine . $this->_getContent()
             . $this->endOfLine . $this->endOfLine . '?>';
         
         if ( false === @file_put_contents( $file, $content ) ) {
@@ -176,20 +163,6 @@ abstract class ScriptReorganizer_Type
         }
         
         $this->endOfLine = '';
-    }
-    
-    // }}}
-    // {{{ public function setContent( $content )
-    
-    /**
-     * Sets the script's content currently being reorganized
-     *
-     * @param  string $content a string representing the content's replacement
-     * @return void
-     */
-    public function setContent( $content )
-    {
-        $this->content = $content;
     }
     
     // }}}
@@ -211,6 +184,36 @@ abstract class ScriptReorganizer_Type
                 return $eol;
             }
         }
+    }
+    
+    // }}}
+    
+    // {{{ package function _getContent()
+    
+    /**
+     * Gets the script's content currently being reorganized
+     *
+     * @visibility package restricted
+     * @return     string a string representing the script's content
+     */
+    public function _getContent()
+    {
+        return $this->content;
+    }
+    
+    // }}}
+    // {{{ package function _setContent( $content )
+    
+    /**
+     * Sets the script's content currently being reorganized
+     *
+     * @visibility package restricted
+     * @param      string $content a string representing the content's replacement
+     * @return     void
+     */
+    public function _setContent( $content )
+    {
+        $this->content = $content;
     }
     
     // }}}
