@@ -5,9 +5,8 @@
 <font NAME="Verdana" SIZE="11"/>
 <node CREATED="1120583159605" ID="Freemind_Link_695304407" MODIFIED="1122056084732" TEXT="tracker" VSHIFT="20">
 <icon BUILTIN="messagebox_warning"/>
-<node CREATED="1126817710514" ID="Freemind_Link_1067112804" MODIFIED="1130709420621" TEXT="docs/manual&#xa;create DocBook files (tar.gz)"/>
 <node CREATED="1127659985682" ID="Freemind_Link_1225901868" MODIFIED="1127659999051" TEXT="ScriptReorganizer_Type_Decorator_Pharize&#xa;implement loadDirectory() - SPL?"/>
-<node CREATED="1120592532298" FOLDED="true" ID="Freemind_Link_576779230" MODIFIED="1120838844144" TEXT="0.2.1 " VSHIFT="2">
+<node CREATED="1120592532298" FOLDED="true" ID="Freemind_Link_576779230" MODIFIED="1130716798911" TEXT="0.3.0 " VSHIFT="2">
 <icon BUILTIN="button_ok"/>
 <node COLOR="#ff0000" CREATED="1120583193303" ID="Freemind_Link_1743084958" MODIFIED="1120757754877" TEXT="0.1.0 - V.Lascaux: ScriptReorganizer_Type_Library&#xa;handling of cyclic include_once/require_once is missing"/>
 <node CREATED="1120596035565" ID="Freemind_Link_947117724" MODIFIED="1120757885525" TEXT="G.Beaver: ScriptReorganizer_Strategy_Pack&#xa;update information re. bug tracking issue for optimized script/libraries"/>
@@ -21,6 +20,7 @@
 <node CREATED="1126817309067" ID="Freemind_Link_1841479405" MODIFIED="1127660296349" TEXT="(all) files&#xa;comply with PEAR&apos;s file format EOL-wise">
 <font NAME="Verdana" SIZE="10"/>
 </node>
+<node CREATED="1126817710514" ID="Freemind_Link_1067112804" MODIFIED="1130982567470" TEXT="docs/guide&#xa;create guide.txt with reference to the API"/>
 <node CREATED="1120839287111" ID="Freemind_Link_1497184176" MODIFIED="1127660296339" TEXT="ScriptReorganizer_Type_Decorator_Pharize&#xa;implement getContent() and setContent()">
 <font NAME="Verdana" SIZE="10"/>
 </node>
@@ -56,7 +56,7 @@
 <node CREATED="1120582389006" ID="Freemind_Link_1450178656" MODIFIED="1121291148126" TEXT="docs">
 <icon BUILTIN="desktop_new"/>
 <node CREATED="1130542159585" ID="Freemind_Link_186690551" LINK="../api.tar.gz" MODIFIED="1130542224938" TEXT="api.tar.gz"/>
-<node CREATED="1120582546363" ID="Freemind_Link_300232292" MODIFIED="1126817847331" TEXT="manual.pdf" VSHIFT="3">
+<node CREATED="1120582546363" ID="Freemind_Link_300232292" LINK="../guide.txt" MODIFIED="1130982493734" TEXT="guide.txt" VSHIFT="3">
 <font NAME="Verdana" SIZE="10"/>
 </node>
 <node CREATED="1120630499790" ID="Freemind_Link_1024069057" LINK="../../Package.xml" MODIFIED="1121705639265" TEXT="package.xml"/>
@@ -99,7 +99,6 @@
 <hook NAME="plugins/TimeManagementReminder.xml">
 <Parameters REMINDUSERAT="1645564920772"/>
 </hook>
-<node CREATED="1121867827186" ID="Freemind_Link_1851016358" MODIFIED="1128181950370" TEXT="0.3.0 - 10.2005: first official PEAR release"/>
 <node CREATED="1121867837511" ID="Freemind_Link_1542058529" MODIFIED="1128181959453" TEXT="0.4.0 - 11.2005: final library interface"/>
 <node CREATED="1121867849468" ID="Freemind_Link_1214559560" MODIFIED="1128181968175" TEXT="0.5.0 - 12.2005: final tool interface"/>
 </node>

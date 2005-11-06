@@ -41,15 +41,15 @@ require_once 'ScriptReorganizer/Strategy/Quiet.php';
  * (2) two or more consecutive spaces and/or tabs with a single space char.
  *
  * Multiple consecutive EOLs are replaced either as defined (1) in the default mode
- * by a single EOL or (2) in the advanced mode by a single space char.
+ * by a single EOL or (2) in the extreme mode by a single space char.
  *
  * <b>Warning</b>: With ScriptReorganizer optimized source code the tracking of
  * report error messages of the PHP Engine will definitively get cumbersome, when the
- * advanced mode of the Pack strategy is applied. Reason being: all statements are
+ * extreme mode of the Pack strategy is applied. Reason being: all statements are
  * organized on one line only. It is crucial to throughout test again - not only unit
  * test - the code after optimizing it and before building a release to deploy.
  *
- * If the advanced pack mode strategy is used for packaging, a non-ScriptReorganized
+ * If the extreme pack mode strategy is used for packaging, a non-ScriptReorganized
  * source code tree should be shipped together with the optimized one, to enable
  * third parties to track down undiscoverd bugs.
  *
@@ -70,7 +70,7 @@ class ScriptReorganizer_Strategy_Pack implements ScriptReorganizer_Strategy
      * Constructor
      *
      * @param boolean $oneLiner true, if the script's packing should result in only
-     *        one line of code - advanced pack mode; otherwise false - default pack
+     *        one line of code - extreme pack mode; otherwise false - default pack
      *        mode
      */
     public function __construct( $oneLiner = false )

@@ -24,15 +24,27 @@
 
 clearstatcache();
 
-$path = realpath( dirname( __FILE__ ) . '/../..' ) . DIRECTORY_SEPARATOR;
+$path = realpath( dirname( __FILE__ ) ) . DIRECTORY_SEPARATOR;
 
-if ( !file_exists( $path . '/docs/examples/target/Screo-packedLibrary.php' ) ) {
+if ( !file_exists( $path . 'target/Screo-packedLibrary.php' ) ) {
     die( 'Run packLibrary.php prior to the file size report' );
 }
 
-if ( !file_exists( $path . '/docs/examples/target/Screo-compiledPackedLibrary.php' ) ) {
+// get the bytes used for the packed library
+
+$packedLibrary = filesize( $path . 'target/Screo-packedLibrary.php' );
+
+if ( !file_exists( $path . 'target/Screo-compiledPackedLibrary.php' ) ) {
     die( 'Run compilePackedLibrary.php prior to the file size report' );
 }
+
+// get the bytes used for the compiled library
+
+$compiledLibrary = filesize( $path . 'target/Screo-compiledPackedLibrary.php' );
+
+// set the correct root
+
+$path = realpath( $path . '../../../ScriptReorganizer' ) . DIRECTORY_SEPARATOR;
 
 echo PHP_EOL . 'File size report:' . PHP_EOL;
 
@@ -61,17 +73,9 @@ $originalSize += filesize( $path . 'Type/Decorator/Pharize.php' );
 echo PHP_EOL . '- bytes used for the original classes:  ' . $originalSize
     . ' =  ' . round( $originalSize / 1024, 2 ) . ' KB';
 
-// get the bytes used for the packed library
-
-$packedLibrary = filesize( $path . 'docs/examples/target/Screo-packedLibrary.php' );
-
 echo PHP_EOL . '- bytes used for the packed library  :  ' . $packedLibrary
     . ' =  ' . round( $packedLibrary / 1024, 2 ) . ' KB'
     . ' (' . ( round( $packedLibrary / $originalSize * 100, 2 ) ) . '%)';
-
-// get the bytes used for the compiled library
-
-$compiledLibrary = filesize( $path . 'docs/examples/target/Screo-compiledPackedLibrary.php' );
 
 echo PHP_EOL . '- bytes used for the compiled library: ' . $compiledLibrary
     . ' = ' . round( $compiledLibrary / 1024, 2 ) . ' KB'
