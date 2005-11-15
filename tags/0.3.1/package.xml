@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<package version="1.0">
+    <name>ScriptReorganizer</name>
+    <summary>Library/Tool focusing exclusively on the file size aspect of PHP script optimization.</summary>
+    <description>
+ScriptReorganizer has the ability to reorganize source code in different (incremental) ways:
+
+- File: one-to-one (Script) or many-to-one (Library) optimization.
+
+- Source: EOL (Route), comment (Quiet) and whitespace (Pack) optimization.
+
+Plugin functionality is available by means of the Decorator Pattern.
+
+It is highly recommended to follow the best practice detailed out below, when using this package:
+
+1. Running of all tests before building releases to deploy.
+
+2. Reorganization of the source code file(s) with ScriptReorganizer.
+
+3. Running of all tests - not only unit tests!
+
+4. Final building of the release to deploy.
+
+If the extreme mode of the pack strategy is used for packaging, a non-ScriptReorganized source code tree should be shipped together with the optimized one, to enable third parties to track down undiscoverd bugs.
+
+Same applies for (complex) applications that are pharized, i.e. optimized and packaged with PHP_Archive, as well as for bcompiled scripts.
+
+ANN: Currently only 'pure' PHP code can be reorganized. Look into the folder &lt;root/&gt;PEAR/docs/ScriptReorganizer for more information in depth.
+    </description>
+    <license>LGPL</license>
+    <maintainers>
+        <maintainer>
+            <user>sfrausch</user>
+            <name>Stefano F. Rausch</name>
+            <email>stefano@rausch-e.net</email>
+            <role>lead</role>
+        </maintainer>
+    </maintainers>
+    
+    <release>
+        <version>0.3.1</version>
+        <date>2005-11-15</date>
+        <state>alpha</state>
+        <notes>
+* docs/guide.txt: section 4 added Decorators Chaining Matrix; added appendix sections Test-Driven Development and Guide Changes
+
+* ScriptReorganizer_Type: moved property $endOfLineIdentifiers to method getEolIdentifier
+
+* ScriptReorganizer_Type_Decorator_AddFooter: added possibly needed footer's EOL convertion to the content's one
+
+* ScriptReorganizer_Type_Decorator_AddHeader: added possibly needed header's EOL convertion to the content's one
+
+- ext.dependencies.php: removed from package.xml, its only needed for the local API documentation
+        </notes>
+        <deps>
+            <dep type="php" rel="ge" version="5.0.3" />
+            <dep type="ext" rel="ge" version="0.6" optional="yes">bcompiler</dep>
+            <dep type="pkg" rel="ge" version="0.5.0" optional="yes">PHP_Archive</dep>
+            <dep type="pkg" rel="ge" version="2.3.0" optional="yes">PHPUnit2</dep>
+        </deps>
+        <filelist>
+            <dir baseinstalldir="ScriptReorganizer" name="/" role="doc">
+                <dir name="docs">
+                    <file name="api.tar.gz" install-as="api.tar.gz" />
+                    <file name="guide.txt" install-as="guide.txt">
+                        <replace from="@package_version@" to="version" type="package-info" />
+                        <replace from="@release_state@" to="release_state" type="package-info" />
+                    </file>
+                    <dir name="examples">
+                        <file name="compilePackedLibrary.php" install-as="examples/compilePackedLibrary.php" />
+                        <file name="fileSizeReport.php" install-as="examples/fileSizeReport.php" />
+                        <file name="packLibrary.php" install-as="examples/packLibrary.php" />
+                        <file name="packLibraryCheck.php" install-as="examples/packLibraryCheck.php" />
+                        <dir name="source">
+                            <file name="preLibrary.php" install-as="examples/source/preLibrary.php" />
+                        </dir>
+                        <dir name="target">
+                            <file name="Screo-compiledPackedLibrary.php" install-as="examples/target/Screo-compiledPackedLibrary.php" />
+                            <file name="Screo-packedLibrary.php" install-as="examples/target/Screo-packedLibrary.php" />
+                        </dir>
+                    </dir>
+                    <dir name="maps">
+                        <file name="project.mm" install-as="maps/project.mm" />
+                        <file name="project-legend.mm" install-as="maps/project-legend.mm" />
+                        <file name="project.pdf" install-as="maps/project.pdf" />
+                    </dir>
+                    <dir name="uml">
+                        <file name="sketch.pdf" install-as="uml/sketch.pdf" />
+                        <file name="sketch.zuml" install-as="uml/sketch.zuml" />
+                    </dir>
+                </dir>
+            </dir>
+            <dir baseinstalldir="ScriptReorganizer" name="/" role="php">
+                <file name="Exception.php">
+                    <replace from="@package_version@" to="version" type="package-info" />
+                </file>
+                <file name="GNU.LesserGPL" />
+                <file name="Strategy.php">
+                    <replace from="@package_version@" to="version" type="package-info" />
+                </file>
+                <dir name="Strategy">
+                    <file name="Exception.php">
+                    	<replace from="@package_version@" to="version" type="package-info" />
+                    </file>
+                    <file name="Pack.php">
+                    	<replace from="@package_version@" to="version" type="package-info" />
+                    </file>
+                    <file name="Quiet.php">
+                    	<replace from="@package_version@" to="version" type="package-info" />
+                    </file>
+                    <file name="Route.php">
+                    	<replace from="@package_version@" to="version" type="package-info" />
+                    </file>
+                </dir>
+                <file name="Type.php">
+                    <replace from="@package_version@" to="version" type="package-info" />
+                </file>
+                <dir name="Type">
+                    <file name="Decorator.php">
+                        <replace from="@package_version@" to="version" type="package-info" />
+                    </file>
+                    <dir name="Decorator">
+                        <file name="AddFooter.php">
+                            <replace from="@package_version@" to="version" type="package-info" />
+                        </file>
+                        <file name="AddHeader.php">
+                            <replace from="@package_version@" to="version" type="package-info" />
+                        </file>
+                        <file name="Bcompile.php">
+                            <replace from="@package_version@" to="version" type="package-info" />
+                        </file>
+                        <file name="Exception.php">
+                            <replace from="@package_version@" to="version" type="package-info" />
+                        </file>
+                        <file name="Pharize.php">
+                            <replace from="@package_version@" to="version" type="package-info" />
+                        </file>
+                    </dir>
+                    <file name="Exception.php">
+                        <replace from="@package_version@" to="version" type="package-info" />
+                    </file>
+                    <file name="Library.php">
+                        <replace from="@package_version@" to="version" type="package-info" />
+                    </file>
+                    <file name="Script.php">
+                        <replace from="@package_version@" to="version" type="package-info" />
+                    </file>
+                </dir>
+            </dir>
+            <dir baseinstalldir="ScriptReorganizer" name="/" role="test">
+                <dir name="Tests">
+                    <file name="AllTests.php" />
+                    <dir name="files">
+                        <file name="ARequiresB.php" />
+                        <file name="BRequiresA.php" />
+                        <file name="eol-mac.php" />
+                        <file name="eol-unix.php" />
+                        <file name="eol-win.php" />
+                        <file name="expectedAdvancedPackedHeredoc.php" />
+                        <file name="expectedDefaultPackedHeredoc.php" />
+                        <file name="expectedDefaultPackedLibrary.php" />
+                        <file name="expectedDefaultPackedLibraryHashBang.php" />
+                        <file name="expectedDefaultPackedScript.php" />
+                        <file name="expectedDefaultPackedScriptHashBang.php" />
+                        <file name="expectedOneLinerPackedLibrary.php" />
+                        <file name="expectedOneLinerPackedScript.php" />
+                        <file name="expectedQuietedLibrary.php" />
+                        <file name="expectedQuietedScript.php" />
+                        <file name="expectedRoutedLibrary.php" />
+                        <file name="expectedRoutedScript.php" />
+                        <file name="hashBang-mac.php" />
+                        <file name="hashBang-unix.php" />
+                        <file name="hashBang-win.php" />
+                        <file name="hashBangImport.php" />
+                        <file name="heredoc-mac.php" />
+                        <file name="heredoc-unix.php" />
+                        <file name="heredoc-win.php" />
+                        <file name="sample-mac.php" />
+                        <file name="sample-unix.php" />
+                        <file name="sample-win.php" />
+                        <dir name="tree">
+                            <file name="leaf.php" />
+                            <file name="root.php" />
+                            <file name="root.php-FailingImport.php" />
+                            <file name="subLeaf.php" />
+                            <dir name="node">
+                                <file name="leaf1.php" />
+                                <file name="leaf2.php" />
+                            </dir>
+                        </dir>
+                    </dir>
+                    <dir name="Strategy">
+                        <file name="AllTests.php" />
+                        <file name="PackTest.php" />
+                        <file name="QuietTest.php" />
+                        <file name="RouteTest.php" />
+                    </dir>
+                    <dir name="Type">
+                        <file name="AllTests.php" />
+                        <file name="EolTest.php" />
+                        <file name="HashBangTest.php" />
+                        <file name="HeredocTest.php" />
+                        <file name="LibraryTest.php" />
+                        <file name="ScriptTest.php" />
+                        <dir name="Decorator">
+                            <file name="AllTests.php" />
+                            <file name="AddFooterTest.php" />
+                            <file name="AddHeaderTest.php" />
+                            <file name="AddHeaderAndFooterTest.php" />
+                            <file name="BcompileTest.php" />
+                            <file name="PharizeTest.php" />
+                        </dir>
+                    </dir>
+                </dir>
+            </dir>
+        </filelist>
+    </release>
+    <changelog>
+        <release>
+            <version>0.3.0</version>
+            <date>2005-11-06</date>
+            <state>alpha</state>
+            <notes>
+This is the first official PEAR release!
+
++ docs/api.tar.gz
+  PhpDocumentor generated API documentation
++ docs/examples
+  A few (self packaging) examples, see the unit
+  tests for standard ones
++ docs/guide.txt
++ docs/maps
+  Mind Map(s) for project management, see:
+  http://sourceforge.net/projects/freemind
++ docs/uml/sketch.pdf
+  For easy reference, should one not have an
+  UML tool installed
++ ext.dependencies.php
+  External dependencies documentation file
++ ScriptReorganizer_Type_Decorator_Bcompile
+  Implemented new decorator for speed
+  optimization, cons: file size increase
++ Access tag: @visibility package restricted
+  for the implementation of the setContent and
+  getContent methods following to a certain
+  extent the RFC::PackageAccess of Lukas Smith,
+  see: http://pear.php.net/pepr/
+  pepr-proposal-show.php?id=228
+
+* Package.xml
+  - Finalized the summary and description
+    section
+  - Now complies with PEAR's official directory
+    structure docs and tests-wise
+* ScriptReorganizer_Strategy_Route
+  Removed call to function trim - see
+  ScriptReorganizer_Type
+* ScriptReorganizer_Strategy_Pack
+  - Fixed whitespace bug in non-windows files
+  - Removed call to function trim - see
+    ScriptReorganizer_Type
+* ScriptReorganizer_Type
+  - Added processing of the unices' hash-bang
+    directive
+  - Handling of Heredocs now strictly complies
+    with the rules stated in the PHP manual,
+    see:
+    php.net/manual/en/language.types.string.php
+  - Added EOL style autodetection for the
+    primary file being optimized
+  - Streamlined the reformat process, see the
+    changes in ScriptReorganizer_Strategy_Route
+    and ScriptReorganizer_Strategy_Pack
+  - Changed the accessibility of the setContent
+    and getContent methods from public to
+    package restricted, see the access tag
+    addition note above
+* ScriptReorganier_Type_Decorator
+  Changed the accessibility of the setContent
+  and getContent methods from public to package
+  restricted, see the access tag addition note
+  above
+* ScriptReorganizer_Type_Library
+  - Added a best practice comment
+  - simplified the static import identifier's
+    regex
+* ScriptReorganizer_Tye_Script
+  Added a best practice comment
+* all decorators
+  disabled the autoload feature of the
+  class_exits check
+* ScriptReorganizer_Type_Decorator_AddFooter
+  - Added constraint: decoration of a directly
+    sequencing Pharize-Decorator is not allowed
+* ScriptReorganizer_Type_Decorator_AddHeader
+  - Added constraint: decoration of a directly
+    sequencing Pharize-Decorator is not allowed
+* ScriptReorganizer_Type_Decorator_Pharize
+  - Added a best practice comment
+  - Implemented missing package restricted
+    getContent and setContent methods, see the
+    access tag addition note above
+  - Updated constraint (annotation) to reflect
+    the new available decorator Bcompile too
+  - Both methods load and loadFiles now throw a
+    more detailed exception message
+* all classes with calls to the getContent and
+  setContent methods according to the access
+  tag addition note above
+* AllTests.php in Tests and its subfolders
+  removed PHPUnit2_Extensions_TestFileLoader
+  dependency, due to upgrade to PHPUnit2-2.3.0
+
+- Tests/PHPUnit2_Extensions_TestFileLoader
+  due to upgrade to PHPUnit2-2.3.0:
+  PHPUnit2_Framework_TestSuite now incorporates
+  the method addTestFile ... thanks for
+  accepting my contribution Sebastian ;)
+            </notes>
+        </release>
+        <release>
+            <version>0.2.1</version>
+            <date>2005-06-03</date>
+            <state>alpha</state>
+            <notes>
+* ScriptReorganizer_Type
+  Fixed Heredoc bug spotted by Davey Shafik
+* ScriptReorganizer_Type_Decorator_Pharize
+  Updated the documentation regarding the best
+  practice to follow - suggested by Greg Beaver
+            </notes>
+        </release>
+        <release>
+            <version>0.2.0</version>
+            <date>2005-05-23</date>
+            <state>alpha</state>
+            <notes>
+* ScriptReorganizer_Strategy_Pack
+  - Splitted reorganization to accomodate a
+    default and an advanced pack mode
+  - Updated the documentation regarding the bug
+    tracking issue - suggested by Greg Beaver
+            </notes>
+        </release>
+        <release>
+            <version>0.1.1</version>
+            <date>2005-05-18</date>
+            <state>alpha</state>
+            <notes>
+* ScriptReorganizer_Type_Library
+  Fixed cylic import bug - spotted by Vincent
+  Lascaux
+            </notes>
+        </release>
+        <release>
+            <version>0.1.0</version>
+            <date>2005-05-15</date>
+            <state>alpha</state>
+            <notes>
+First proposal to the PEAR community
+            </notes>
+        </release>
+    </changelog>
+</package>
