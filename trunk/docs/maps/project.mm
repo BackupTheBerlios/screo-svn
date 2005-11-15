@@ -6,16 +6,17 @@
 <node CREATED="1120583159605" ID="Freemind_Link_695304407" MODIFIED="1122056084732" TEXT="tracker" VSHIFT="20">
 <icon BUILTIN="messagebox_warning"/>
 <node CREATED="1127659985682" ID="Freemind_Link_1225901868" MODIFIED="1127659999051" TEXT="ScriptReorganizer_Type_Decorator_Pharize&#xa;implement loadDirectory() - SPL?"/>
-<node CREATED="1120592532298" FOLDED="true" ID="Freemind_Link_576779230" MODIFIED="1130716798911" TEXT="0.3.0 " VSHIFT="2">
+<node CREATED="1120592532298" FOLDED="true" ID="Freemind_Link_576779230" MODIFIED="1132010131456" TEXT="0.3.1 " VSHIFT="2">
 <icon BUILTIN="button_ok"/>
-<node COLOR="#ff0000" CREATED="1120583193303" ID="Freemind_Link_1743084958" MODIFIED="1120757754877" TEXT="0.1.0 - V.Lascaux: ScriptReorganizer_Type_Library&#xa;handling of cyclic include_once/require_once is missing"/>
+<node COLOR="#ff0000" CREATED="1120583193303" FOLDED="true" ID="Freemind_Link_1743084958" MODIFIED="1120757754877" TEXT="0.1.0 - V.Lascaux: ScriptReorganizer_Type_Library&#xa;handling of cyclic include_once/require_once is missing">
 <node CREATED="1120596035565" ID="Freemind_Link_947117724" MODIFIED="1120757885525" TEXT="G.Beaver: ScriptReorganizer_Strategy_Pack&#xa;update information re. bug tracking issue for optimized script/libraries"/>
-<node CREATED="1120596909846" ID="Freemind_Link_143295932" MODIFIED="1120768789677" TEXT="ScriptReorganizer_Strategy_Pack&#xa;split reorganization to accomodate a default and an advanced pack mode"/>
-<node COLOR="#ff0000" CREATED="1120583205270" ID="Freemind_Link_324472222" MODIFIED="1120757792932" TEXT="0.2.0 - D.Shafik: ScriptReorganizer_Type&#xa;handling of Heredocs is missing"/>
-<node CREATED="1120599239709" ID="Freemind_Link_1568323416" MODIFIED="1120757868711" TEXT="G.Beaver: ScriptReorganizer_Type_Decorator_Pharize&#xa;update information re. bug tracking issue for (complex) pharized applications"/>
-<node COLOR="#ff0000" CREATED="1120646118573" ID="Freemind_Link_32333257" MODIFIED="1127660296359" TEXT="0.2.1: ScriptReorganizer_Type&#xa;cover all Heredocs variants according to http://php.net/manual/en/language.types.string.php">
-<font NAME="Verdana" SIZE="10"/>
+<node CREATED="1120596909846" ID="Freemind_Link_143295932" MODIFIED="1131572431010" TEXT="ScriptReorganizer_Strategy_Pack&#xa;split reorganization to accomodate a default and an extreme pack mode"/>
 </node>
+<node COLOR="#ff0000" CREATED="1120583205270" FOLDED="true" ID="Freemind_Link_324472222" MODIFIED="1120757792932" TEXT="0.2.0 - D.Shafik: ScriptReorganizer_Type&#xa;handling of Heredocs is missing">
+<node CREATED="1120599239709" ID="Freemind_Link_1568323416" MODIFIED="1131572247296" TEXT="G.Beaver: ScriptReorganizer_Type_Decorator_Pharize&#xa;update information re. bug tracking issue for (complex) pharized applications" VSHIFT="2"/>
+</node>
+<node COLOR="#ff0000" CREATED="1120646118573" FOLDED="true" ID="Freemind_Link_32333257" MODIFIED="1127660296359" TEXT="0.2.1: ScriptReorganizer_Type&#xa;cover all Heredocs variants according to http://php.net/manual/en/language.types.string.php">
+<font NAME="Verdana" SIZE="10"/>
 <node CREATED="1121968114437" ID="Freemind_Link_743411504" MODIFIED="1127660433416" TEXT="docs/API&#xa;create api.tar.gz"/>
 <node CREATED="1126817309067" ID="Freemind_Link_1841479405" MODIFIED="1127660296349" TEXT="(all) files&#xa;comply with PEAR&apos;s file format EOL-wise">
 <font NAME="Verdana" SIZE="10"/>
@@ -39,7 +40,7 @@
 <node CREATED="1120718039931" ID="Freemind_Link_801048763" MODIFIED="1127660296309" TEXT="Hash-Bang&#xa;process the unices directive: #!&lt;[path/to/] program executing the file&gt;">
 <font NAME="Verdana" SIZE="10"/>
 </node>
-<node CREATED="1121668332653" FOLDED="true" ID="Freemind_Link_1381385252" MODIFIED="1129812053772" TEXT="docs/examples&#xa;add few (self packaging) examples, see the unit tests for standard ones">
+<node CREATED="1121668332653" ID="Freemind_Link_1381385252" MODIFIED="1129812053772" TEXT="docs/examples&#xa;add few (self packaging) examples, see the unit tests for standard ones">
 <edge COLOR="#808080"/>
 <node CREATED="1121968223283" ID="Freemind_Link_77580346" MODIFIED="1130326360791" TEXT="Pack &amp; Header:&#xa;- Screo.lib, Screo.compiled.lib&#xa;Report: comparison size-wise" VSHIFT="2"/>
 </node>
@@ -49,6 +50,14 @@
 </node>
 <node CREATED="1127661666749" ID="Freemind_Link_1560586264" MODIFIED="1127661722960" TEXT="ScriptReorganizer_Type_Decorator_Pharize&#xa;add constraint: decoration of a directly sequencing Bcompile-Decorator not allowed"/>
 </node>
+<node COLOR="#ff0000" CREATED="1131833742897" FOLDED="true" ID="Freemind_Link_894783651" MODIFIED="1132010112609" TEXT="0.3.0: ScriptReorganizer_Type_Decorator_AddHeader/Footer&#xa;possibly needed header&apos;s/footer&apos;s EOL convertion to the content&apos;s one is missing">
+<node CREATED="1131924970638" ID="Freemind_Link_1052624294" MODIFIED="1132009937707" TEXT="docs/guide.txt&#xa;add Decorators Chaining Matrix to section 4"/>
+<node CREATED="1131582430779" ID="Freemind_Link_1662542855" MODIFIED="1131925171156" TEXT="docs/guide.txt&#xa;add appendix sections TDD and Guide Changes">
+<font NAME="Verdana" SIZE="10"/>
+</node>
+<node CREATED="1131559452928" ID="Freemind_Link_1832497534" MODIFIED="1131835967496" TEXT="ext.dependencies.php&#xa;remove from package.xml, its only needed for the local API documentation"/>
+</node>
+</node>
 </node>
 <node CREATED="1121866506347" ID="Freemind_Link_710125815" MODIFIED="1121866516872" TEXT="">
 <edge COLOR="#ffffff"/>
@@ -56,10 +65,11 @@
 <node CREATED="1120582389006" ID="Freemind_Link_1450178656" MODIFIED="1121291148126" TEXT="docs">
 <icon BUILTIN="desktop_new"/>
 <node CREATED="1130542159585" ID="Freemind_Link_186690551" LINK="../api.tar.gz" MODIFIED="1130542224938" TEXT="api.tar.gz"/>
+<node CREATED="1131560226220" ID="Freemind_Link_751980615" LINK="../examples" MODIFIED="1131560246409" TEXT="examples"/>
 <node CREATED="1120582546363" ID="Freemind_Link_300232292" LINK="../guide.txt" MODIFIED="1130982493734" TEXT="guide.txt" VSHIFT="3">
 <font NAME="Verdana" SIZE="10"/>
 </node>
-<node CREATED="1120630499790" ID="Freemind_Link_1024069057" LINK="../../Package.xml" MODIFIED="1121705639265" TEXT="package.xml"/>
+<node CREATED="1120630499790" ID="Freemind_Link_1024069057" LINK="../../package.xml" MODIFIED="1131559949322" TEXT="package.xml"/>
 <node CREATED="1120582542687" ID="Freemind_Link_606399679" LINK="../uml/sketch.zuml" MODIFIED="1121705618365" TEXT="sketch.zuml"/>
 <node CREATED="1121968668113" ID="Freemind_Link_1914751732" LINK="http://pear.php.net/package/ScriptReorganizer/" MODIFIED="1123608561342" TEXT="homepage" VSHIFT="-1">
 <node CREATED="1120583237707" ID="Freemind_Link_1475122089" LINK="http://pear.php.net/pepr/pepr-proposal-show.php?id=247" MODIFIED="1121969143476" TEXT="PEPr - accepted, sum of votes: 5 (0 conditional)" VSHIFT="2"/>
@@ -82,9 +92,11 @@
 <edge COLOR="#808080"/>
 </node>
 </node>
+<node CREATED="1131570447798" ID="Freemind_Link_1086379248" MODIFIED="1131835294298" TEXT="add code-coverage analysis information"/>
 <node CREATED="1125854413589" FOLDED="true" ID="Freemind_Link_37460358" MODIFIED="1125854434839" TEXT="simplify ScriptReorganizer_Type_Decorator">
 <node COLOR="#cc6600" CREATED="1125854439366" ID="Freemind_Link_575795039" MODIFIED="1125859201473" TEXT="// require once all needed classes&#xa;&#xa;abstract class ScriptReorganizer_Type_Decorator&#xa;{&#xa;    public function __construct( ScriptReorganizer_Type $type )&#xa;    {&#xa;        $this-&gt;type = $type;&#xa;    }&#xa;    &#xa;    public function __call( $method, $arguments )&#xa;    {&#xa;        if ( method_exists( $this-&gt;type, $method ) ) {&#xa;                return call_user_func_array( array( $this-&gt;type, $method ), $arguments );&#xa;        }&#xa;        &#xa;        throw new ScriptReorganizer_Type_Decorator_Exception( &apos;Unknown method called&apos; );&#xa;    }&#xa;}" VSHIFT="2"/>
 </node>
+<node CREATED="1131833680117" ID="Freemind_Link_1538311084" MODIFIED="1131833701397" TEXT="add new ScriptReorganizer_Type_Decorator_Blenc"/>
 <node CREATED="1120717172443" FOLDED="true" ID="Freemind_Link_1524929326" MODIFIED="1123608173544" TEXT="script syntax check before (and after) reorganizing the source?">
 <node CREATED="1121868292505" ID="Freemind_Link_260122710" LINK="http://pecl.php.net/package/runkit/" MODIFIED="1126818063282" TEXT="use runkit with PHP 5.1 for syntax check&#xa;- does it run the script(s)? alternative: php -n -l &lt;file&gt;" VSHIFT="2"/>
 </node>
@@ -101,6 +113,7 @@
 </hook>
 <node CREATED="1121867837511" ID="Freemind_Link_1542058529" MODIFIED="1128181959453" TEXT="0.4.0 - 11.2005: final library interface"/>
 <node CREATED="1121867849468" ID="Freemind_Link_1214559560" MODIFIED="1128181968175" TEXT="0.5.0 - 12.2005: final tool interface"/>
+<node CREATED="1131559816161" ID="Freemind_Link_1070075309" MODIFIED="1131559832654" TEXT="0.6.0 - 01.2006: final GUI interface"/>
 </node>
 <node CREATED="1121705762001" ID="Freemind_Link_1778702287" MODIFIED="1122056031595" TEXT="" VSHIFT="-1">
 <edge COLOR="#808080"/>

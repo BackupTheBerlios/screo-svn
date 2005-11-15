@@ -83,6 +83,24 @@ class ScriptReorganizer_Tests_Type_Decorator_AddHeaderTest extends PHPUnit2_Fram
     }
     
     // }}}
+    // {{{ public function testHeadersEolConverted()
+    
+    public function testHeadersEolConverted()
+    {
+        $expected = '<?php' . PHP_EOL . PHP_EOL
+            . $this->header . ( include 'ScriptReorganizer/Tests/files/expectedOneLinerPackedScript.php' )
+            . PHP_EOL . PHP_EOL . '?>';
+        
+        $decorator = new ScriptReorganizer_Type_Decorator_AddHeader(
+            new ScriptReorganizer_Type_Script( new ScriptReorganizer_Strategy_Pack( true ) )
+        );
+        
+        $this->header = str_replace( PHP_EOL, ( PHP_EOL == "\r\n" ? "\n" : "\r\n" ), $this->header );
+        
+        $this->xRescript( $decorator, $expected );
+    }
+    
+    // }}}
     // {{{ public function testHeaderNotAdded()
     
     public function testHeaderNotAdded()
@@ -90,11 +108,12 @@ class ScriptReorganizer_Tests_Type_Decorator_AddHeaderTest extends PHPUnit2_Fram
         $expected = '<?php' . PHP_EOL . PHP_EOL
             . ( include 'ScriptReorganizer/Tests/files/expectedOneLinerPackedScript.php' )
             . PHP_EOL . PHP_EOL . '?>';
-        $this->header = null;
         
         $decorator = new ScriptReorganizer_Type_Decorator_AddHeader(
             new ScriptReorganizer_Type_Script( new ScriptReorganizer_Strategy_Pack( true ) )
         );
+        
+        $this->header = null;
         
         $this->xRescript( $decorator, $expected );
     }
@@ -105,11 +124,12 @@ class ScriptReorganizer_Tests_Type_Decorator_AddHeaderTest extends PHPUnit2_Fram
     public function testHeaderStringException()
     {
         $expected = 'will not be used';
-        $this->header = array( $this->header );
         
         $decorator = new ScriptReorganizer_Type_Decorator_AddHeader(
             new ScriptReorganizer_Type_Script( new ScriptReorganizer_Strategy_Pack )
         );
+        
+        $this->header = array( $this->header );
         
         try {
             $this->xRescript( $decorator, $expected );

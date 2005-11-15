@@ -83,6 +83,24 @@ class ScriptReorganizer_Tests_Type_Decorator_AddFooterTest extends PHPUnit2_Fram
     }
     
     // }}}
+    // {{{ public function testFootersEolConverted()
+    
+    public function testFootersEolConverted()
+    {
+        $expected = '<?php' . PHP_EOL . PHP_EOL
+            . ( include 'ScriptReorganizer/Tests/files/expectedOneLinerPackedScript.php' ) . $this->footer
+            . PHP_EOL . PHP_EOL . '?>';
+        
+        $decorator = new ScriptReorganizer_Type_Decorator_AddFooter(
+            new ScriptReorganizer_Type_Script( new ScriptReorganizer_Strategy_Pack( true ) )
+        );
+        
+        $this->footer = str_replace( PHP_EOL, ( PHP_EOL == "\r\n" ? "\n" : "\r\n" ), $this->footer );
+        
+        $this->xRescript( $decorator, $expected );
+    }
+    
+    // }}}
     // {{{ public function testFooterNotAdded()
     
     public function testFooterNotAdded()
@@ -90,11 +108,12 @@ class ScriptReorganizer_Tests_Type_Decorator_AddFooterTest extends PHPUnit2_Fram
         $expected = '<?php' . PHP_EOL . PHP_EOL
             . ( include 'ScriptReorganizer/Tests/files/expectedOneLinerPackedScript.php' )
             . PHP_EOL . PHP_EOL . '?>';
-        $this->footer = null;
         
         $decorator = new ScriptReorganizer_Type_Decorator_AddFooter(
             new ScriptReorganizer_Type_Script( new ScriptReorganizer_Strategy_Pack( true ) )
         );
+        
+        $this->footer = null;
         
         $this->xRescript( $decorator, $expected );
     }
@@ -105,11 +124,12 @@ class ScriptReorganizer_Tests_Type_Decorator_AddFooterTest extends PHPUnit2_Fram
     public function testFooterStringException()
     {
         $expected = 'will not be used';
-        $this->footer = array( $this->footer );
         
         $decorator = new ScriptReorganizer_Type_Decorator_AddFooter(
             new ScriptReorganizer_Type_Script( new ScriptReorganizer_Strategy_Pack )
         );
+        
+        $this->footer = array( $this->footer );
         
         try {
             $this->xRescript( $decorator, $expected );

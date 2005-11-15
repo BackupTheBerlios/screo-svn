@@ -59,10 +59,6 @@ abstract class ScriptReorganizer_Type
     public function __construct( ScriptReorganizer_Strategy $strategy )
     {
         $this->strategy = $strategy;
-        
-        $this->endOfLineIdentifiers = array(
-            'win' => "\r\n", 'unix' => "\n", 'mac' => "\r"
-        );
     }
     
     // }}}
@@ -179,7 +175,11 @@ abstract class ScriptReorganizer_Type
      */
     protected function getEolIdentifier( & $content )
     {
-        foreach ( $this->endOfLineIdentifiers as $eol ) {
+        static $endOfLineIdentifiers = array(
+            'win' => "\r\n", 'unix' => "\n", 'mac' => "\r"
+        );
+        
+        foreach ( $endOfLineIdentifiers as $eol ) {
             if ( false !== strpos( $content, $eol ) ) {
                 return $eol;
             }
@@ -318,13 +318,6 @@ abstract class ScriptReorganizer_Type
      * @var string
      */
     private $endOfLine = '';
-    
-    /**
-     * Holds the end-of-line identifiers of known OSes
-     *
-     * @var array
-     */
-    private $endOfLineIdentifiers = null;
     
     /**
      * Holds the first found hash-bang directive

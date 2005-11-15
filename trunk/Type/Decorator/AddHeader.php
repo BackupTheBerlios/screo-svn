@@ -41,6 +41,10 @@ require_once 'ScriptReorganizer/Type/Decorator/Exception.php';
 /**
  * Decorator for adding a header to the script to reorganize
  *
+ * If the optional/overriding header contains EOL control characters, these will be
+ * converted to the one being used in the main content during the optimization, if
+ * needed.
+ *
  * ANN: Decoration of a directly sequencing Pharize-Decorator is not allowed.
  *
  * @category   Tools
@@ -103,6 +107,15 @@ class ScriptReorganizer_Type_Decorator_AddHeader extends ScriptReorganizer_Type_
             throw new ScriptReorganizer_Type_Decorator_Exception (
                 'Argument $header for AddHeader-Decorator not of type string'
             );
+        }
+        
+        $content = $this->_getContent();
+        
+        $eolOfContent = $this->getEolIdentifier( $content );
+        $eolOfHeader = $this->getEolIdentifier( $this->header );
+        
+        if ( $eolOfHeader != $eolOfContent ) {
+            $this->header = str_replace( $eolOfHeader, $eolOfContent, $this->header );
         }
         
         parent::reformat();

@@ -79,14 +79,14 @@ Preface
    
    On a conceptual level the goal is to create a new file <Type> by applying a
    specific reorganization <Strategy>:
-   
+
        +----------+       +----------+
        |   Type   | <>--- | Strategy |
        +----------+       +----------+
-   
+
    Following the lines it makes sense to achieve either a one-to-one <Script> or
    a many-to-one <Library> optimization:
-   
+
                              +----------+
                         +--- |  Script  |
        +----------+     |    +----------+
@@ -94,7 +94,7 @@ Preface
        +----------+     |    +----------+
                         +--- | Library  |
                              +----------+
-   
+
    Think of <Library> as a simple way to package existing (third party)
    libraries to deploy.
    
@@ -105,7 +105,7 @@ Preface
    - <Quiet> the standard one stripping off in addition all comments and
    - <Pack> the advanced strategy, which - in its extreme mode - is comparable
      with the PHP function php_strip_whitespace:
-   
+
                              +----------+
                         +--- |   Pack   |
                         |    +----------+
@@ -119,7 +119,7 @@ Preface
                         |    +----------+
                         +--- |  Route   |
                              +----------+
-   
+
    What's the reasoning for this layered approach? The main idea is to
    acknowledge possible coding rules set in place - e.g. only stripping off
    comments is allowed.
@@ -130,7 +130,7 @@ Preface
    
    Welcome to the Decorator Pattern [4], the mechanism to extend
    ScriptReorganizer's core functionality:
-   
+
                                                  +-----------+
                                             +--- | AddFooter |
                                             |    +-----------+
@@ -146,7 +146,7 @@ Preface
                                             |    +-----------+
                                             +--- |  Pharize  |
                                                  +-----------+
-   
+
    The package contains 4 simple examples of a <Decorator> to showcase the usage.
    
    To get the big picture see the complete UML sketch [5].
@@ -156,7 +156,7 @@ Preface
    
    Located at:
       
-      <root/PEAR>/ScriptReorganizer/Type
+      <root/>PEAR/ScriptReorganizer/Type
    
    Public API:
       
@@ -205,7 +205,7 @@ Preface
    
    Located at:
       
-      <root/PEAR>/ScriptReorganizer/Strategy
+      <root/>PEAR/ScriptReorganizer/Strategy
    
    Public API:
       
@@ -221,7 +221,7 @@ Preface
    - ScriptReorganizer_Strategy_Quiet: reorganizes scripts by stripping off
      single and multiple line comments as well as by applying the route strategy.
    
-   - ScriptReorganizer_Strategy_Pack: Reorganizes scripts by applying the quiet
+   - ScriptReorganizer_Strategy_Pack: reorganizes scripts by applying the quiet
      strategy as well as by replacing (1) EOLs according to the pack mode - see
      below (2) two or more consecutive spaces and/or tabs with a single space
      char.
@@ -233,14 +233,14 @@ Preface
         
         public object function __construct( boolean $oneLiner = false )
      
-    To avoid the processing of files' imports, which can change independently
-    from the code base at any time, transform the respective statement from a
-    static to a dynamic one, e.g. from "require_once 'configuration.php';" to
-    "require_once 'configuration' . '.php';".
-     
+     To avoid the processing of files' imports, which can change independently
+     from the code base at any time, transform the respective statement from a
+     static to a dynamic one, e.g. from "require_once 'configuration.php';" to
+     "require_once 'configuration' . '.php';".
+   
    ANN: See the API documentation for more information. If the extreme mode of
    the pack strategy is used for optimizing source code, check out the section
-   "Best Practice" too.
+   'Best Practice' too.
    
    Generic Example:
    
@@ -271,7 +271,7 @@ Preface
    
    Located at:
    
-      <root/PEAR>/ScriptReorganizer/Type/Decorator
+      <root/>PEAR/ScriptReorganizer/Type/Decorator
    
    Public API:
       
@@ -322,7 +322,21 @@ Preface
    
    ANN: See the API documentation for more information. Before chaining several
    decorators in one reorganization process look out for any restriction/
-   constraint information usage-wise. Check out the section "Best Practice" too.
+   constraint information usage-wise. Check out the section 'Best Practice' too.
+   
+   Decorators Chaining Matrix
+   
+                  +----------+----------+----------+
+         Line\Co. | Add...   | Bcompile | Pharize  |
+       +----------+----------+----------+----------+
+       | Add...   |    ++    |    ??    |    --    |
+       +----------+----------+----------+----------+
+       | Bcompile |    ??    |    --    |    --    |
+       +----------+----------+----------+----------+
+       | Pharize  |    ++    |    --    |    --    |
+       +----------+----------+----------+----------+
+       
+       Legend: ++ = allowed, ?? = questionable, -- = not allowed
    
    Generic Example:
    
@@ -348,7 +362,8 @@ Preface
    ?>
    
    See the unit tests for standard ones as well as some (special) self packaging
-   examples in the respective docs folder [9].
+   examples - including a file size comparison report - in the respective docs
+   folder [9].
 
 
 5. Best Practice
@@ -361,8 +376,8 @@ Preface
    3. Running of all tests - not only unit tests!
    4. Final building of the release to deploy.
    
-   Furthermore, if the extrem mode of the pack strategy is used for packaging, a
-   non-ScriptReorganized source code tree should be shipped together with the
+   Furthermore, if the extreme mode of the pack strategy is used for packaging,
+   a non-ScriptReorganized source code tree should be shipped together with the
    optimized one, to enable third parties to track down undiscoverd bugs -
    remember that the source code is (i.e. all statements are) reorganized on one
    line only. It will not be fun to track any error messages of the PHP Engine.
@@ -373,8 +388,8 @@ Preface
 
 6. Known Issues
    
-   Currently the package can only reorganize/optimize 'pure PHP script files'.
-   'Mixed PHP code' will be addressed in a future release.
+   Currently the package can only reorganize/optimize 'pure' PHP script files.
+   'Mixed' PHP code will be addressed in a future release.
 
 
 7. Conclusions
@@ -382,22 +397,48 @@ Preface
    ScriptReorganizer will have minor impact on small (few files) projects.
    Looking at medium-to-complex projects however, the results should be notable.
    
-   Good PHPing!
+   Happy PHP'ing!
 
 
 Appendix
    
-   A References
+   A Test-Driven Development (TDD)
+      
+      ScriptReorganizer is being developed following the TDD [10] approach.
+      
+      The open source framework used is PHPUnit2 [11] of Sebastian Bergmann, who
+      is the author of the excellent 'PHPUnit Pocket Guide' [12] too. This was a
+      natural choice, due to the fact that both packages are members or the PHP
+      Extension and Application Repository (PEAR).
+      
+      The unit tests can be found in the respective tests folder [13].
+   
+   B References
       
       [1] http://www.php.net
       [2] http://www.zend.com
+      
       [3] http://en.wikipedia.org/wiki/Strategy_pattern
       [4] http://en.wikipedia.org/wiki/Decorator_pattern
       
-      [5] <root/PEAR>/docs/ScriptReorganizer/uml/sketch.pdf
-      [6] <root/PEAR>/docs/ScriptReorganizer/api.tar.gz
+      [5] <root/>PEAR/docs/ScriptReorganizer/uml/sketch.pdf
+      [6] <root/>PEAR/docs/ScriptReorganizer/api.tar.gz
       
       [7] http://pecl.php.net/package/bcompiler
       [8] http://pear.php.net/package/PHP_Archive
       
-      [9] <root/PEAR>/docs/ScriptReorganizer/examples
+      [9] <root/>PEAR/docs/ScriptReorganizer/examples
+      
+      [10] http://en.wikipedia.org/wiki/Test-driven_development
+      [11] http://pear.php.net/package/PHPUnit2
+      [12] http://www.phpunit.de/pocket_guide/index.en.php
+      [13] <root/>PEAR/tests/ScriptReorganizer
+   
+   C Guide Changes
+      
+      Current revision vs. guide.txt 33 2005-11-06 22:05:46Z stefanorausch
+         
+         + Added appendix section Test-Driven Development
+         + Added appendix section Guide Changes
+         
+         * Section 4: added Decorators Chaining Matrix
