@@ -81,7 +81,7 @@ class ScriptReorganizer_Type_Decorator_AddFooter extends ScriptReorganizer_Type_
         
         parent::__construct( $type );
         
-        $this->footer = $footer;
+        $this->footer = null === $footer ? '' : $footer;
     }
     
     // }}}

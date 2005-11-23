@@ -19,14 +19,16 @@
  * @license    http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  * @version    SVN: $Id$
  * @link       http://pear.php.net/package/ScriptReorganizer
- * @filesource
+ * @since      File available since Release 0.3.0
  */
 
 require_once 'ScriptReorganizer/Exception.php';
+require_once 'ScriptReorganizer/Factory/Exception.php';
 require_once 'ScriptReorganizer/Strategy/Exception.php';
 require_once 'ScriptReorganizer/Type/Exception.php';
 require_once 'ScriptReorganizer/Type/Decorator/Exception.php';
 
+require_once 'ScriptReorganizer/Factory.php';
 require_once 'ScriptReorganizer/Strategy.php';
 require_once 'ScriptReorganizer/Type.php';
 

@@ -50,7 +50,7 @@ require_once 'ScriptReorganizer/Type/Decorator/AddHeader.php';
 
 $header = <<< HEADER
 /*
- * http://pear.php.net/package/ScriptReorganizer 0.3.0 - Packed Library
+ * http://pear.php.net/package/ScriptReorganizer 0.4.0 alpha - Packed Library
  *
  * PHP version 5
  *

@@ -26,9 +26,11 @@ Table of Contents:
    2. Types
    3. Strategies
    4. Decorators
-   5. Best Practice
-   6. Known Issues
-   7. Conclusions
+   5. Factory
+   6. Exceptions
+   7. Best Practice
+   8. Known Issues
+   9. Conclusions
    
    Appendix
 
@@ -147,7 +149,9 @@ Preface
                                             +--- |  Pharize  |
                                                  +-----------+
 
-   The package contains 4 simple examples of a <Decorator> to showcase the usage.
+   The package contains 4 simple examples of a <Decorator> to showcase the usage
+   for adding additional information at the start or at the end of a source file,
+   to compile to byte-code and for archiving.
    
    To get the big picture see the complete UML sketch [5].
 
@@ -176,6 +180,11 @@ Preface
    - ScriptReorganizer_Type_Library: converts a single script file and all
      imported files into a single library according to the <Strategy> to apply.
    
+     To avoid the processing of files' imports, which can change independently
+     from the code base at any time, transform the respective statement from a
+     static to a dynamic one, e.g. from "require_once 'configuration.php';" to
+     "require_once 'configuration' . '.php';".
+   
    ANN: See the API documentation [6] for more information.
    
    Generic Example:
@@ -189,11 +198,11 @@ Preface
    $script = new ScriptReorganizer_Type_Script( new <Strategy> );
    
    try {
-      $script->load( <path/name of file to optimize> );
-      $script->reformat();
-      $script->save( <path/name of optimized file> );
+       $script->load( <path/name of file to optimize> );
+       $script->reformat();
+       $script->save( <path/name of optimized file> );
    } catch ( ScriptReorganizer_Exception $e ) {
-      // do some recovery here ...
+       // do some recovery here ...
    }
    
    ?>
@@ -233,11 +242,6 @@ Preface
         
         public object function __construct( boolean $oneLiner = false )
      
-     To avoid the processing of files' imports, which can change independently
-     from the code base at any time, transform the respective statement from a
-     static to a dynamic one, e.g. from "require_once 'configuration.php';" to
-     "require_once 'configuration' . '.php';".
-   
    ANN: See the API documentation for more information. If the extreme mode of
    the pack strategy is used for optimizing source code, check out the section
    'Best Practice' too.
@@ -251,15 +255,15 @@ Preface
    require_once 'ScriptReorganizer/Type/Library.php';
    
    $library = new ScriptReorganizer_Type_Library(
-      new ScriptReorganizer_Strategy_Pack( true ) // do extreme packaging
+       new ScriptReorganizer_Strategy_Pack( true ) // do extreme packaging
    );
    
    try {
-      $library->load( <path/name of file to optimize> ); // including imports
-      $library->reformat();
-      $library->save( <path/name of optimized file> );
+       $library->load( <path/name of file to optimize> ); // including imports
+       $library->reformat();
+       $library->save( <path/name of optimized file> );
    } catch ( ScriptReorganizer_Exception $e ) {
-      // do some recovery here ...
+       // do some recovery here ...
    }
    
    ?>
@@ -306,7 +310,7 @@ Preface
         public void function reformat( $header = null )
    
    - ScriptReorganizer_Type_Decorator_Bcompile: Decorator/Adapter for encoding a
-     PHP source file in byte-code [7].
+     PHP source file to byte-code [7].
      
    - ScriptReorganizer_Type_Decorator_Pharize: Decorator/Adapter for creating a
      PHP_Archive [8].
@@ -319,10 +323,6 @@ Preface
            boolean $magicRequire = false )
         public void function save( string $file, string initFile = 'index.php',
            boolean $compress = false, mixed $allowDirectAccess = false )
-   
-   ANN: See the API documentation for more information. Before chaining several
-   decorators in one reorganization process look out for any restriction/
-   constraint information usage-wise. Check out the section 'Best Practice' too.
    
    Decorators Chaining Matrix
    
@@ -338,6 +338,10 @@ Preface
        
        Legend: ++ = allowed, ?? = questionable, -- = not allowed
    
+   ANN: See the API documentation for more information. If one of the decorators
+   - with exception of <AddFooter> and <AddHeader> - is used, check out the
+   section 'Best Practice' too.
+   
    Generic Example:
    
    <?php
@@ -347,16 +351,21 @@ Preface
    require_once 'ScriptReorganizer/Type/Script.php';
    require_once 'ScriptReorganizer/Type/Decorator/AddHeader.php';
    
+   /*
+    * The instantiation statement should be moved into the try-block, if the
+    * chaining constraints cannot be familiarized with.
+    */
+   
    $script = new ScriptReorganizer_Type_Decorator_AddHeader(
-      new ScriptReorganizer_Type_Script( new ScriptReorganizer_Strategy_Quiet )
+       new ScriptReorganizer_Type_Script( new ScriptReorganizer_Strategy_Quiet )
    );
    
    try {
-      $script->load( <path/name of file to optimize> );
-      $script->reformat( '<A header to be added>' );
-      $script->save( <path/name of optimized file> );
+       $script->load( <path/name of file to optimize> );
+       $script->reformat( '<A header to be added>' );
+       $script->save( <path/name of optimized file> );
    } catch ( ScriptReorganizer_Exception $e ) {
-      // do some recovery here ...
+       // do some recovery here ...
    }
    
    ?>
@@ -366,7 +375,158 @@ Preface
    folder [9].
 
 
-5. Best Practice
+5. Factory
+   
+   The package is - as shown in the previous sections - easy and well-defined to
+   use.
+   
+   However, we can we go one step further and simplify even more the object
+   creation process!
+   
+   Located at:
+      
+      <root/>PEAR/ScriptReorganizer
+   
+   Public API:
+      
+      public static object function create( mixed $type, mixed $strategy
+         [, mixed $decorator ...] )
+   
+   Available Classes:
+   
+   - ScriptReorganizer_Factory: Factory/Facade for easy <ScriptReorganizer_Type>
+     object creation.
+   
+     The names of the classes declared - the last differentiating part - are
+     case-sensitive. E.g., <kbd>ScriptReorganizer_Type_Script</kbd> has to be
+     denoted as 'Script' - on Windows boxes the case does not matter.
+   
+   ANN: See the API documentation for more information.
+   
+   Generic Example:
+   
+   - use the factory
+     
+     <?php
+     
+     require_once 'ScriptReorganizer/Exception.php';
+     require_once 'ScriptReorganizer/Factory.php';
+     
+     $library = ScriptReorganizer_Factory::create(
+         'Library', array( 'Pack', true ), 'AddHeader', array(
+             'AddFooter', '<A footer to be added>'
+         )
+     );
+     
+     try {
+         $library->load( <path/name of file to optimize> );
+         $library->reformat( '<A header to be added>' );
+         $library->save( <path/name of optimized file> );
+     } catch ( ScriptReorganizer_Exception $e ) {
+         // do some recovery here ...
+     }
+     
+     ?>
+   
+   - instead of the standard way
+     
+     <?php
+     
+     require_once 'ScriptReorganizer/Exception.php';
+     require_once 'ScriptReorganizer/Strategy/Pack.php';
+     require_once 'ScriptReorganizer/Type/Library.php';
+     require_once 'ScriptReorganizer/Type/Decorator/AddFooter.php';
+     require_once 'ScriptReorganizer/Type/Decorator/AddHeader.php';
+     
+     $library = new ScriptReorganizer_Type_Decorator_AddHeader(
+         new ScriptReorganizer_Type_Decorator_AddFooter(
+             new ScriptReorganizer_Type_Library(
+                 new ScriptReorganizer_Strategy_Pack( true )
+             ), '<A footer to be added>'
+         )
+     );
+     
+     try {
+         $library->load( <path/name of file to optimize> );
+         $library->reformat( '<A header to be added>' );
+         $library->save( <path/name of optimized file> );
+     } catch ( ScriptReorganizer_Exception $e ) {
+         // do some recovery here ...
+     }
+     
+     ?>
+   
+   See the unit tests for standard ones.
+
+
+6. Exceptions
+   
+   It should be clear by now that ScriptReorganizer uses <Exception>s for error
+   reporting - no wonder, it's a PHP 5 package ;)
+   
+   For every (sub) package there is a dedicated (tagging) exception class to
+   allow a fine grained error recovery!
+   
+   Located at/Available Classes:
+   
+   - <root/>PEAR/ScriptReorganizer
+     
+     ScriptReorganizer_Exception: Base exception class.
+     
+     Defined Exception Messages:
+     
+     - N/A
+   
+   - <root/>PEAR/ScriptReorganizer/Factory
+     
+     ScriptReorganizer_Factory_Exception: Factory exception class.
+     
+     Defined Exception Messages:
+     
+     - 'Argument(s) either not of type string/array or empty'
+     - 'Array argument(s) either not of type string or empty'
+     - 'Class <class> not found'
+   
+   - <root/>PEAR/ScriptReorganizer/Strategy
+     
+     ScriptReorganizer_Strategy_Exception: Strategy exception class.
+     
+     Defined Exception Messages:
+     
+     - N/A
+   
+   - <root/>PEAR/ScriptReorganizer/Type
+     
+     ScriptReorganizer_Type_Exception: Type exception class.
+     
+     Defined Exception Messages:
+     
+     - 'File <file> is not readable'
+     - 'File <file> is not writable'
+     - 'Import of <...> failed'
+   
+   - <root/>PEAR/ScriptReorganizer/Type/Decorator
+      
+     ScriptReorganizer_Type_Decorator_Exception: Decorator exception class.
+     
+     Defined Exception Messages:
+     
+     - 'Argument $files for Pharize-Decorator either not of type array or empty'
+     - 'Argument $footer for AddFooter-Decorator not of type string'
+     - 'Argument $header for AddHeader-Decorator not of type string'
+     - 'Argument $target for Pharize-Decorator either not of type string or empty'
+     - 'Argument $targets for Pharize-Decorator either not of type array or empty'
+     - 'BCompiler file <file> is not writable'
+     - 'Could not add <...> to PHP Archive file'
+     - 'Decoration of a directly sequencing Bcompile-Decorator not allowed'
+     - 'Decoration of a directly sequencing Pharize-Decorator not allowed'
+     - 'PHP Archive file <file> is not writable'
+     - 'PHP Extension bcompiler not loaded'
+   
+   ANN: See the API documentation for more information.
+
+
+7. Best Practice
    
    It is highly recommended to follow the best practice detailed out below, when
    using this package:
@@ -386,15 +546,15 @@ Preface
    packaged with PHP_Archive, as well as for bcompiled scripts.
 
 
-6. Known Issues
+8. Known Issues
    
    Currently the package can only reorganize/optimize 'pure' PHP script files.
    'Mixed' PHP code will be addressed in a future release.
 
 
-7. Conclusions
+9. Conclusions
    
-   ScriptReorganizer will have minor impact on small (few files) projects.
+   ScriptReorganizer will have only a minor impact on small (few files) projects.
    Looking at medium-to-complex projects however, the results should be notable.
    
    Happy PHP'ing!
@@ -408,7 +568,7 @@ Appendix
       
       The open source framework used is PHPUnit2 [11] of Sebastian Bergmann, who
       is the author of the excellent 'PHPUnit Pocket Guide' [12] too. This was a
-      natural choice, due to the fact that both packages are members or the PHP
+      natural choice, due to the fact that both packages are members of the PHP
       Extension and Application Repository (PEAR).
       
       The unit tests can be found in the respective tests folder [13].
@@ -436,7 +596,19 @@ Appendix
    
    C Guide Changes
       
-      Current revision vs. guide.txt 33 2005-11-06 22:05:46Z stefanorausch
+      2005-11-22 vs. guide.txt 37 2005-11-15 05:00:00Z stefanorausch
+      
+         + Added new sections Factory (5) and Exceptions(6)
+         
+         * Rectified section numbering: Best Practice (7), Known Issues (8) and
+           Conclusions (9)
+         * Changed section 2 and 3: now the "processing of files' import"
+           paragraph correctly shows up in section 2 instead of in section 3
+         * Section 4: moved the Decorators Chaining Matrix in front of the
+           annotation
+         * Content: corrected some typos
+      
+      2005-11-15 vs. guide.txt 33 2005-11-06 22:05:46Z stefanorausch
          
          + Added appendix section Test-Driven Development
          + Added appendix section Guide Changes

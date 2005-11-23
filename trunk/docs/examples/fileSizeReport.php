@@ -51,8 +51,11 @@ echo PHP_EOL . 'File size report:' . PHP_EOL;
 // calculate the bytes used for all the relevant (well-documented) 16 classes
 
 $originalSize  = filesize( $path . 'Exception.php' );
+$originalSize += filesize( $path . 'Factory.php' );
 $originalSize += filesize( $path . 'Strategy.php' );
 $originalSize += filesize( $path . 'Type.php' );
+
+$originalSize += filesize( $path . 'Factory/Exception.php' );
 
 $originalSize += filesize( $path . 'Strategy/Exception.php' );
 $originalSize += filesize( $path . 'Strategy/Route.php' );

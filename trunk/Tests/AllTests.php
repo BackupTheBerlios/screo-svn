@@ -20,6 +20,8 @@ class ScriptReorganizer_Tests_AllTests
         $suite->addTestFile( 'ScriptReorganizer/Tests/Type/AllTests.php' );
         $suite->addTestFile( 'ScriptReorganizer/Tests/Type/Decorator/AllTests.php' );
         
+        $suite->addTestFile( 'ScriptReorganizer/Tests/FactoryTest.php' );
+        
         return $suite;
     }
     

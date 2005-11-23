@@ -38,19 +38,25 @@ ANN: Currently only 'pure' PHP code can be reorganized. Look into the folder &lt
     </maintainers>
     
     <release>
-        <version>0.3.1</version>
-        <date>2005-11-15</date>
+        <version>0.4.0</version>
+        <date>2005-11-22</date>
         <state>alpha</state>
         <notes>
-* docs/guide.txt: section 4 added Decorators Chaining Matrix; added appendix sections Test-Driven Development and Guide Changes
+Final library interface release!
 
-* ScriptReorganizer_Type: moved property $endOfLineIdentifiers to method getEolIdentifier
++ ScriptReorganizer_Factory: implemented new Factory/Facade for easy &lt;ScriptReorganizer_Type&gt; object creation
 
-* ScriptReorganizer_Type_Decorator_AddFooter: added possibly needed footer's EOL convertion to the content's one
++ ScriptReorganizer_Factory_Exception: implemented new Factory exception class
 
-* ScriptReorganizer_Type_Decorator_AddHeader: added possibly needed header's EOL convertion to the content's one
+* docs/examples/fileSizeReport.php and source/preLibrary.php: updated to reflect the new &lt;ScriptReorganizer_Factory&gt; and &lt;ScriptReorganizer_Factory_Exception&gt; source files
 
-- ext.dependencies.php: removed from package.xml, its only needed for the local API documentation
+* docs/guide.txt: added new sections Factory (5) and Exceptions(6); rectified section numbering: Best Practice (7), Known Issues (8) and Conclusions (9); changed section 2 and 3: now the "processing of files' import" paragraph correctly shows up in section 2 instead of in section 3; section 4: moved the Decorators Chaining Matrix in front of the annotation; content: corrected some typos
+
+* docs/uml: updated the sketch
+
+* ScriptReorganizer_Type_Decorator_AddFooter: fixed NULL argument handling in the constructor - there was none ;)
+
+* ScriptReorganizer_Type_Decorator_AddHeader: fixed NULL argument handling in the constructor - there was none ;)
         </notes>
         <deps>
             <dep type="php" rel="ge" version="5.0.3" />
@@ -94,6 +100,14 @@ ANN: Currently only 'pure' PHP code can be reorganized. Look into the folder &lt
                 <file name="Exception.php">
                     <replace from="@package_version@" to="version" type="package-info" />
                 </file>
+                <file name="Factory.php">
+                    <replace from="@package_version@" to="version" type="package-info" />
+                </file>
+                <dir name="Factory">
+                    <file name="Exception.php">
+                    	<replace from="@package_version@" to="version" type="package-info" />
+                    </file>
+                </dir>
                 <file name="GNU.LesserGPL" />
                 <file name="Strategy.php">
                     <replace from="@package_version@" to="version" type="package-info" />
@@ -150,6 +164,7 @@ ANN: Currently only 'pure' PHP code can be reorganized. Look into the folder &lt
             <dir baseinstalldir="ScriptReorganizer" name="/" role="test">
                 <dir name="Tests">
                     <file name="AllTests.php" />
+                    <file name="FactoryTest.php" />
                     <dir name="files">
                         <file name="ARequiresB.php" />
                         <file name="BRequiresA.php" />
@@ -216,6 +231,22 @@ ANN: Currently only 'pure' PHP code can be reorganized. Look into the folder &lt
         </filelist>
     </release>
     <changelog>
+        <release>
+            <version>0.3.1</version>
+            <date>2005-11-15</date>
+            <state>alpha</state>
+            <notes>
+* docs/guide.txt: section 4 added Decorators Chaining Matrix; added appendix sections Test-Driven Development and Guide Changes
+
+* ScriptReorganizer_Type: moved property $endOfLineIdentifiers to method getEolIdentifier
+
+* ScriptReorganizer_Type_Decorator_AddFooter: added possibly needed footer's EOL convertion to the content's one
+
+* ScriptReorganizer_Type_Decorator_AddHeader: added possibly needed header's EOL convertion to the content's one
+
+- ext.dependencies.php: removed from package.xml, its only needed for the local API documentation
+            </notes>
+        </release>
         <release>
             <version>0.3.0</version>
             <date>2005-11-06</date>

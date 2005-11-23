@@ -40,7 +40,7 @@ require_once 'ScriptReorganizer/Type/Decorator.php';
 require_once 'ScriptReorganizer/Type/Decorator/Exception.php';
 
 /**
- * Decorator/Adapter for encoding a PHP source file in byte-code
+ * Decorator/Adapter for encoding a PHP source file to byte-code
  *
  * If a script or a library is bcompiled, a non-ScriptReorganized source code tree
  * should be shipped together with the optimized one, to enable third parties to

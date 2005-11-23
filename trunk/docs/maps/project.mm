@@ -5,8 +5,10 @@
 <font NAME="Verdana" SIZE="11"/>
 <node CREATED="1120583159605" ID="Freemind_Link_695304407" MODIFIED="1122056084732" TEXT="tracker" VSHIFT="20">
 <icon BUILTIN="messagebox_warning"/>
+<node CREATED="1131833680117" ID="Freemind_Link_1538311084" MODIFIED="1132173467884" TEXT="ScriptReorganizer_Type_Decorator_Blenc&#xa;implement new decorator for encryption"/>
 <node CREATED="1127659985682" ID="Freemind_Link_1225901868" MODIFIED="1127659999051" TEXT="ScriptReorganizer_Type_Decorator_Pharize&#xa;implement loadDirectory() - SPL?"/>
-<node CREATED="1120592532298" FOLDED="true" ID="Freemind_Link_576779230" MODIFIED="1132010131456" TEXT="0.3.1 " VSHIFT="2">
+<node CREATED="1132434018297" ID="Freemind_Link_127483269" MODIFIED="1132434109468" TEXT="ScriptReorganizer_Type_Decorator_Specification&#xa;implement the Specification Pattern to simplify the compliance with chaining constraints"/>
+<node CREATED="1120592532298" ID="Freemind_Link_576779230" MODIFIED="1132617087522" TEXT="0.4.0 " VSHIFT="2">
 <icon BUILTIN="button_ok"/>
 <node COLOR="#ff0000" CREATED="1120583193303" FOLDED="true" ID="Freemind_Link_1743084958" MODIFIED="1120757754877" TEXT="0.1.0 - V.Lascaux: ScriptReorganizer_Type_Library&#xa;handling of cyclic include_once/require_once is missing">
 <node CREATED="1120596035565" ID="Freemind_Link_947117724" MODIFIED="1120757885525" TEXT="G.Beaver: ScriptReorganizer_Strategy_Pack&#xa;update information re. bug tracking issue for optimized script/libraries"/>
@@ -57,6 +59,9 @@
 </node>
 <node CREATED="1131559452928" ID="Freemind_Link_1832497534" MODIFIED="1131835967496" TEXT="ext.dependencies.php&#xa;remove from package.xml, its only needed for the local API documentation"/>
 </node>
+<node COLOR="#ff0000" CREATED="1132616950895" FOLDED="true" ID="Freemind_Link_778111100" MODIFIED="1132617039633" TEXT="0.3.1: ScriptReorganizer_Type_Decorator_AddFooter/Header&#xa;fix NULL argument handling in the constructor - there is none">
+<node CREATED="1123651380611" ID="Freemind_Link_1622003210" MODIFIED="1132434011477" TEXT="ScriptReorganizer_Factory&#xa;implement new factory/facade for easy type object creation"/>
+</node>
 </node>
 </node>
 <node CREATED="1121866506347" ID="Freemind_Link_710125815" MODIFIED="1121866516872" TEXT="">
@@ -96,11 +101,9 @@
 <node CREATED="1125854413589" FOLDED="true" ID="Freemind_Link_37460358" MODIFIED="1125854434839" TEXT="simplify ScriptReorganizer_Type_Decorator">
 <node COLOR="#cc6600" CREATED="1125854439366" ID="Freemind_Link_575795039" MODIFIED="1125859201473" TEXT="// require once all needed classes&#xa;&#xa;abstract class ScriptReorganizer_Type_Decorator&#xa;{&#xa;    public function __construct( ScriptReorganizer_Type $type )&#xa;    {&#xa;        $this-&gt;type = $type;&#xa;    }&#xa;    &#xa;    public function __call( $method, $arguments )&#xa;    {&#xa;        if ( method_exists( $this-&gt;type, $method ) ) {&#xa;                return call_user_func_array( array( $this-&gt;type, $method ), $arguments );&#xa;        }&#xa;        &#xa;        throw new ScriptReorganizer_Type_Decorator_Exception( &apos;Unknown method called&apos; );&#xa;    }&#xa;}" VSHIFT="2"/>
 </node>
-<node CREATED="1131833680117" ID="Freemind_Link_1538311084" MODIFIED="1131833701397" TEXT="add new ScriptReorganizer_Type_Decorator_Blenc"/>
 <node CREATED="1120717172443" FOLDED="true" ID="Freemind_Link_1524929326" MODIFIED="1123608173544" TEXT="script syntax check before (and after) reorganizing the source?">
 <node CREATED="1121868292505" ID="Freemind_Link_260122710" LINK="http://pecl.php.net/package/runkit/" MODIFIED="1126818063282" TEXT="use runkit with PHP 5.1 for syntax check&#xa;- does it run the script(s)? alternative: php -n -l &lt;file&gt;" VSHIFT="2"/>
 </node>
-<node CREATED="1123651380611" ID="Freemind_Link_1622003210" MODIFIED="1129811905889" TEXT="ScriptReorganizer_Factory: implement new factory for easy library access"/>
 <node CREATED="1120717728793" ID="Freemind_Link_1915000749" MODIFIED="1121866732683" TEXT="GUI">
 <node CREATED="1125859257774" ID="Freemind_Link_1302702233" MODIFIED="1125859264214" TEXT="CLI based"/>
 <node CREATED="1121866721436" ID="Freemind_Link_448496444" MODIFIED="1122962149082" TEXT="(X)HTML based"/>
@@ -111,7 +114,6 @@
 <hook NAME="plugins/TimeManagementReminder.xml">
 <Parameters REMINDUSERAT="1645564920772"/>
 </hook>
-<node CREATED="1121867837511" ID="Freemind_Link_1542058529" MODIFIED="1128181959453" TEXT="0.4.0 - 11.2005: final library interface"/>
 <node CREATED="1121867849468" ID="Freemind_Link_1214559560" MODIFIED="1128181968175" TEXT="0.5.0 - 12.2005: final tool interface"/>
 <node CREATED="1131559816161" ID="Freemind_Link_1070075309" MODIFIED="1131559832654" TEXT="0.6.0 - 01.2006: final GUI interface"/>
 </node>

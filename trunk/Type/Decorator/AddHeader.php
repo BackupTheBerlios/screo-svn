@@ -81,7 +81,7 @@ class ScriptReorganizer_Type_Decorator_AddHeader extends ScriptReorganizer_Type_
         
         parent::__construct( $type );
         
-        $this->header = $header;
+        $this->header = null === $header ? '' : $header;
     }
     
     // }}}
