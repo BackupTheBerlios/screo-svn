@@ -1,0 +1,616 @@
+
+USER'S GUIDE
+------------
+Revision: $Id$
+
+
+PEAR::Tools::ScriptReorganizer
+------------------------------
+http://pear.php.net/package/ScriptReorganizer
+
+Release: @package_version@ @release_state@
+
+(c) 2005 Stefano F. Rausch <stefano@rausch-e.net>
+
+LICENSE: This library is free software; you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by the
+Free Software Foundation; either version 2.1 of the License, or (at your option)
+any later version - visit http://www.gnu.org/copyleft/lesser.html for a copy.
+
+
+Table of Contents:
+   
+   Preface
+   
+   1. Conceptual View
+   2. Types
+   3. Strategies
+   4. Decorators
+   5. Factory
+   6. Exceptions
+   7. Best Practice
+   8. Known Issues
+   9. Conclusions
+   
+   Appendix
+
+
+Preface
+   
+   Since I started using PHP [1] in 2003 I'm asking myself: should the best
+   practice not be a two-build deployment of PHP scripts/applications?
+   
+   The goal being
+   
+   - for development: Good Looking Code (tm), i.e. structured (one class per
+     file, if the OOP path is followed ;), well documented and throughout unit
+     tested,
+   - for production use: compact fast running optimized code.
+   
+   One aspect of optimization is the direct juggling with byte-code and/or with
+   the source code. On the byte-code level there are already several solutions
+   available as well as for caching techniques. But what about the source code
+   reorganization? AFAIK - please correct me, if I'm wrong - the (open source)
+   contributions have been sparse so far.
+   
+   The simple equation 'Execution Time = Loading Time + Parsing Time', which
+   does not take into account the fact of external constraints like DB
+   responsiveness etc., leads to the logical answer that the loading time (incl.
+   the imports of every single file needed for execution) is where to kick off
+   with the tweaking.
+   
+   However, playing devil's advocate, one could argue that the ZEND Engine [2]
+   caches the requested scripts for future use and that the parser skips/strips
+   all comments. So where is the added value?
+   
+   Brainstorming, the following pros come into mind: the reduced file size and
+   the eventually 'packaging' must have an impact performance-wise
+   
+   - on the memory footprint (even if minimal),
+   - on the parsing of source code as well as
+   - on the no. of (expensive) file I/O operations to execute.
+   
+   Think about it.
+
+
+1. Conceptual View
+   
+   ScriptReorganizer's core sets its focus exclusively on the file size aspect
+   of optimization. The library/tool has the ability to reorganize source code
+   in different (incremental) ways.
+   
+   On a conceptual level the goal is to create a new file <Type> by applying a
+   specific reorganization <Strategy>:
+
+       +----------+       +----------+
+       |   Type   | <>--- | Strategy |
+       +----------+       +----------+
+
+   Following the lines it makes sense to achieve either a one-to-one <Script> or
+   a many-to-one <Library> optimization:
+
+                             +----------+
+                        +--- |  Script  |
+       +----------+     |    +----------+
+       |   Type   | <---+                
+       +----------+     |    +----------+
+                        +--- | Library  |
+                             +----------+
+
+   Think of <Library> as a simple way to package existing (third party)
+   libraries to deploy.
+   
+   Having sorted out the file type(s) to create, the following strategies spring
+   into mind:
+   
+   - <Route> the basic strategy leaving the code base almost untouched,
+   - <Quiet> the standard one stripping off in addition all comments and
+   - <Pack> the advanced strategy, which - in its extreme mode - is comparable
+     with the PHP function php_strip_whitespace:
+
+                             +----------+
+                        +--- |   Pack   |
+                        |    +----------+
+                        |         |      
+                        |         V      
+       +----------+     |    +----------+
+       | Strategy | <---+--- |  Quiet   |
+       +----------+     |    +----------+
+                        |         |      
+                        |         V      
+                        |    +----------+
+                        +--- |  Route   |
+                             +----------+
+
+   What's the reasoning for this layered approach? The main idea is to
+   acknowledge possible coding rules set in place - e.g. only stripping off
+   comments is allowed.
+   
+   So far so good. The Strategy Pattern [3] is in place. But what about
+   attaching additional responsibilities to a <Type> dynamically to achieve even
+   more flexibility?
+   
+   Welcome to the Decorator Pattern [4], the mechanism to extend
+   ScriptReorganizer's core functionality:
+
+                                                 +-----------+
+                                            +--- | AddFooter |
+                                            |    +-----------+
+             +------------------+           |                 
+             |                  |           |    +-----------+
+             V                  |           +--- | AddHeader |
+       +----------+       +-----------+     |    +-----------+
+       |   Type   | ---<> | Decorator | <---+                 
+       +----------+       +-----------+     |    +-----------+
+                                            +--- | Bcompile  |
+                                            |    +-----------+
+                                            |                 
+                                            |    +-----------+
+                                            +--- |  Pharize  |
+                                                 +-----------+
+
+   The package contains 4 simple examples of a <Decorator> to showcase the usage
+   for adding additional information at the start or at the end of a source file,
+   to compile to byte-code and for archiving.
+   
+   To get the big picture see the complete UML sketch [5].
+
+
+2. Types
+   
+   Located at:
+      
+      <root/>PEAR/ScriptReorganizer/Type
+   
+   Public API:
+      
+      public object function __construct( ScriptReorganizer_Strategy $strategy )
+      
+      public void function load( string $file )
+      public void function reformat( void )
+      public void function save( string $file )
+      
+      protected string function getEolIdentifier( & string $content )
+   
+   Available Classes:
+   
+   - ScriptReorganizer_Type_Script: converts a single script file according to
+     the <Strategy> to apply.
+   
+   - ScriptReorganizer_Type_Library: converts a single script file and all
+     imported files into a single library according to the <Strategy> to apply.
+   
+     To avoid the processing of files' imports, which can change independently
+     from the code base at any time, transform the respective statement from a
+     static to a dynamic one, e.g. from "require_once 'configuration.php';" to
+     "require_once 'configuration' . '.php';".
+   
+   ANN: See the API documentation [6] for more information.
+   
+   Generic Example:
+   
+   <?php
+   
+   require_once 'ScriptReorganizer/Exception.php';
+   require_once <Strategy>; // see next section
+   require_once 'ScriptReorganizer/Type/Script.php';
+   
+   $script = new ScriptReorganizer_Type_Script( new <Strategy> );
+   
+   try {
+       $script->load( <path/name of file to optimize> );
+       $script->reformat();
+       $script->save( <path/name of optimized file> );
+   } catch ( ScriptReorganizer_Exception $e ) {
+       // do some recovery here ...
+   }
+   
+   ?>
+   
+   See the unit tests for standard ones.
+
+
+3. Strategies
+   
+   Located at:
+      
+      <root/>PEAR/ScriptReorganizer/Strategy
+   
+   Public API:
+      
+      public object function __construct( void )
+      
+      public string function reformat( & string $content, string $eol )
+   
+   Available Classes:
+   
+   - ScriptReorganizer_Strategy_Route: reorganizes scripts by replacing two or
+     more consecutive blank lines with a single one.
+   
+   - ScriptReorganizer_Strategy_Quiet: reorganizes scripts by stripping off
+     single and multiple line comments as well as by applying the route strategy.
+   
+   - ScriptReorganizer_Strategy_Pack: reorganizes scripts by applying the quiet
+     strategy as well as by replacing (1) EOLs according to the pack mode - see
+     below (2) two or more consecutive spaces and/or tabs with a single space
+     char.
+     
+     Multiple consecutive EOLs are replaced either as defined (1) in the default
+     mode by a single EOL or (2) in the extreme mode by a single space char.
+     
+     Extended Public API:
+        
+        public object function __construct( boolean $oneLiner = false )
+     
+   ANN: See the API documentation for more information. If the extreme mode of
+   the pack strategy is used for optimizing source code, check out the section
+   'Best Practice' too.
+   
+   Generic Example:
+   
+   <?php
+   
+   require_once 'ScriptReorganizer/Exception.php';
+   require_once 'ScriptReorganizer/Strategy/Pack.php';
+   require_once 'ScriptReorganizer/Type/Library.php';
+   
+   $library = new ScriptReorganizer_Type_Library(
+       new ScriptReorganizer_Strategy_Pack( true ) // do extreme packaging
+   );
+   
+   try {
+       $library->load( <path/name of file to optimize> ); // including imports
+       $library->reformat();
+       $library->save( <path/name of optimized file> );
+   } catch ( ScriptReorganizer_Exception $e ) {
+       // do some recovery here ...
+   }
+   
+   ?>
+   
+   See the unit tests for standard ones.
+
+
+4. Decorators
+   
+   Located at:
+   
+      <root/>PEAR/ScriptReorganizer/Type/Decorator
+   
+   Public API:
+      
+      public object function __construct( ScriptReorganizer_Type $type )
+      
+      public void function load( string $file )
+      public void function reformat( void )
+      public void function save( string $file )
+      
+      protected string function getEolIdentifier( & string $content )
+   
+   Available Classes:
+   
+   - ScriptReorganizer_Type_Decorator_AddFooter: Decorator for adding a footer
+     to the script to reorganize.
+     
+     Extended Public API:
+     
+        public object function __construct( ScriptReorganizer_Type $type,
+           string $footer = '' )
+        
+        public void function reformat( $footer = null )
+   
+   - ScriptReorganizer_Type_Decorator_AddHeader: Decorator for adding a header
+     to the script to reorganize.
+     
+     Extended Public API:
+     
+        public object function __construct( ScriptReorganizer_Type $type,
+           string $header = '' )
+        
+        public void function reformat( $header = null )
+   
+   - ScriptReorganizer_Type_Decorator_Bcompile: Decorator/Adapter for encoding a
+     PHP source file to byte-code [7].
+     
+   - ScriptReorganizer_Type_Decorator_Pharize: Decorator/Adapter for creating a
+     PHP_Archive [8].
+     
+     Extended Public API:
+     
+        public void function load( string $source, string $target,
+           boolean $magicRequire = false )
+        public void function loadFiles ( array $files,
+           boolean $magicRequire = false )
+        public void function save( string $file, string initFile = 'index.php',
+           boolean $compress = false, mixed $allowDirectAccess = false )
+   
+   Decorators Chaining Matrix
+   
+                  +----------+----------+----------+
+         Line\Co. | Add...   | Bcompile | Pharize  |
+       +----------+----------+----------+----------+
+       | Add...   |    ++    |    ??    |    --    |
+       +----------+----------+----------+----------+
+       | Bcompile |    ??    |    --    |    --    |
+       +----------+----------+----------+----------+
+       | Pharize  |    ++    |    --    |    --    |
+       +----------+----------+----------+----------+
+       
+       Legend: ++ = allowed, ?? = questionable, -- = not allowed
+   
+   ANN: See the API documentation for more information. If one of the decorators
+   - with exception of <AddFooter> and <AddHeader> - is used, check out the
+   section 'Best Practice' too.
+   
+   Generic Example:
+   
+   <?php
+   
+   require_once 'ScriptReorganizer/Exception.php';
+   require_once 'ScriptReorganizer/Strategy/Quiet.php';
+   require_once 'ScriptReorganizer/Type/Script.php';
+   require_once 'ScriptReorganizer/Type/Decorator/AddHeader.php';
+   
+   /*
+    * The instantiation statement should be moved into the try-block, if the
+    * chaining constraints cannot be familiarized with.
+    */
+   
+   $script = new ScriptReorganizer_Type_Decorator_AddHeader(
+       new ScriptReorganizer_Type_Script( new ScriptReorganizer_Strategy_Quiet )
+   );
+   
+   try {
+       $script->load( <path/name of file to optimize> );
+       $script->reformat( '<A header to be added>' );
+       $script->save( <path/name of optimized file> );
+   } catch ( ScriptReorganizer_Exception $e ) {
+       // do some recovery here ...
+   }
+   
+   ?>
+   
+   See the unit tests for standard ones as well as some (special) self packaging
+   examples - including a file size comparison report - in the respective docs
+   folder [9].
+
+
+5. Factory
+   
+   The package is - as shown in the previous sections - easy and well-defined to
+   use.
+   
+   However, we can we go one step further and simplify even more the object
+   creation process!
+   
+   Located at:
+      
+      <root/>PEAR/ScriptReorganizer
+   
+   Public API:
+      
+      public static object function create( mixed $type, mixed $strategy
+         [, mixed $decorator ...] )
+   
+   Available Classes:
+   
+   - ScriptReorganizer_Factory: Factory/Facade for easy <ScriptReorganizer_Type>
+     object creation.
+   
+     The names of the classes declared - the last differentiating part - are
+     case-sensitive. E.g., <kbd>ScriptReorganizer_Type_Script</kbd> has to be
+     denoted as 'Script' - on Windows boxes the case does not matter.
+   
+   ANN: See the API documentation for more information.
+   
+   Generic Example:
+   
+   - use the factory
+     
+     <?php
+     
+     require_once 'ScriptReorganizer/Exception.php';
+     require_once 'ScriptReorganizer/Factory.php';
+     
+     $library = ScriptReorganizer_Factory::create(
+         'Library', array( 'Pack', true ), 'AddHeader', array(
+             'AddFooter', '<A footer to be added>'
+         )
+     );
+     
+     try {
+         $library->load( <path/name of file to optimize> );
+         $library->reformat( '<A header to be added>' );
+         $library->save( <path/name of optimized file> );
+     } catch ( ScriptReorganizer_Exception $e ) {
+         // do some recovery here ...
+     }
+     
+     ?>
+   
+   - instead of the standard way
+     
+     <?php
+     
+     require_once 'ScriptReorganizer/Exception.php';
+     require_once 'ScriptReorganizer/Strategy/Pack.php';
+     require_once 'ScriptReorganizer/Type/Library.php';
+     require_once 'ScriptReorganizer/Type/Decorator/AddFooter.php';
+     require_once 'ScriptReorganizer/Type/Decorator/AddHeader.php';
+     
+     $library = new ScriptReorganizer_Type_Decorator_AddHeader(
+         new ScriptReorganizer_Type_Decorator_AddFooter(
+             new ScriptReorganizer_Type_Library(
+                 new ScriptReorganizer_Strategy_Pack( true )
+             ), '<A footer to be added>'
+         )
+     );
+     
+     try {
+         $library->load( <path/name of file to optimize> );
+         $library->reformat( '<A header to be added>' );
+         $library->save( <path/name of optimized file> );
+     } catch ( ScriptReorganizer_Exception $e ) {
+         // do some recovery here ...
+     }
+     
+     ?>
+   
+   See the unit tests for standard ones.
+
+
+6. Exceptions
+   
+   It should be clear by now that ScriptReorganizer uses <Exception>s for error
+   reporting - no wonder, it's a PHP 5 package ;)
+   
+   For every (sub) package there is a dedicated (tagging) exception class to
+   allow a fine grained error recovery!
+   
+   Located at/Available Classes:
+   
+   - <root/>PEAR/ScriptReorganizer
+     
+     ScriptReorganizer_Exception: Base exception class.
+     
+     Defined Exception Messages:
+     
+     - N/A
+   
+   - <root/>PEAR/ScriptReorganizer/Factory
+     
+     ScriptReorganizer_Factory_Exception: Factory exception class.
+     
+     Defined Exception Messages:
+     
+     - 'Argument(s) either not of type string/array or empty'
+     - 'Array argument(s) either not of type string or empty'
+     - 'Class <class> not found'
+   
+   - <root/>PEAR/ScriptReorganizer/Strategy
+     
+     ScriptReorganizer_Strategy_Exception: Strategy exception class.
+     
+     Defined Exception Messages:
+     
+     - N/A
+   
+   - <root/>PEAR/ScriptReorganizer/Type
+     
+     ScriptReorganizer_Type_Exception: Type exception class.
+     
+     Defined Exception Messages:
+     
+     - 'File <file> is not readable'
+     - 'File <file> is not writable'
+     - 'Import of <...> failed'
+   
+   - <root/>PEAR/ScriptReorganizer/Type/Decorator
+      
+     ScriptReorganizer_Type_Decorator_Exception: Decorator exception class.
+     
+     Defined Exception Messages:
+     
+     - 'Argument $files for Pharize-Decorator either not of type array or empty'
+     - 'Argument $footer for AddFooter-Decorator not of type string'
+     - 'Argument $header for AddHeader-Decorator not of type string'
+     - 'Argument $target for Pharize-Decorator either not of type string or empty'
+     - 'Argument $targets for Pharize-Decorator either not of type array or empty'
+     - 'BCompiler file <file> is not writable'
+     - 'Could not add <...> to PHP Archive file'
+     - 'Decoration of a directly sequencing Bcompile-Decorator not allowed'
+     - 'Decoration of a directly sequencing Pharize-Decorator not allowed'
+     - 'PHP Archive file <file> is not writable'
+     - 'PHP Extension bcompiler not loaded'
+   
+   ANN: See the API documentation for more information.
+
+
+7. Best Practice
+   
+   It is highly recommended to follow the best practice detailed out below, when
+   using this package:
+   
+   1. Running of all tests before building releases to deploy.
+   2. Reorganization of the source code file(s) with ScriptReorganizer.
+   3. Running of all tests - not only unit tests!
+   4. Final building of the release to deploy.
+   
+   Furthermore, if the extreme mode of the pack strategy is used for packaging,
+   a non-ScriptReorganized source code tree should be shipped together with the
+   optimized one, to enable third parties to track down undiscoverd bugs -
+   remember that the source code is (i.e. all statements are) reorganized on one
+   line only. It will not be fun to track any error messages of the PHP Engine.
+   
+   Same applies for (complex) applications that are pharized, i.e. optimized and
+   packaged with PHP_Archive, as well as for bcompiled scripts.
+
+
+8. Known Issues
+   
+   Currently the package can only reorganize/optimize 'pure' PHP script files.
+   'Mixed' PHP code will be addressed in a future release.
+
+
+9. Conclusions
+   
+   ScriptReorganizer will have only a minor impact on small (few files) projects.
+   Looking at medium-to-complex projects however, the results should be notable.
+   
+   Happy PHP'ing!
+
+
+Appendix
+   
+   A Test-Driven Development (TDD)
+      
+      ScriptReorganizer is being developed following the TDD [10] approach.
+      
+      The open source framework used is PHPUnit2 [11] of Sebastian Bergmann, who
+      is the author of the excellent 'PHPUnit Pocket Guide' [12] too. This was a
+      natural choice, due to the fact that both packages are members of the PHP
+      Extension and Application Repository (PEAR).
+      
+      The unit tests can be found in the respective tests folder [13].
+   
+   B References
+      
+      [1] http://www.php.net
+      [2] http://www.zend.com
+      
+      [3] http://en.wikipedia.org/wiki/Strategy_pattern
+      [4] http://en.wikipedia.org/wiki/Decorator_pattern
+      
+      [5] <root/>PEAR/docs/ScriptReorganizer/uml/sketch.pdf
+      [6] <root/>PEAR/docs/ScriptReorganizer/api.tar.gz
+      
+      [7] http://pecl.php.net/package/bcompiler
+      [8] http://pear.php.net/package/PHP_Archive
+      
+      [9] <root/>PEAR/docs/ScriptReorganizer/examples
+      
+      [10] http://en.wikipedia.org/wiki/Test-driven_development
+      [11] http://pear.php.net/package/PHPUnit2
+      [12] http://www.phpunit.de/pocket_guide/index.en.php
+      [13] <root/>PEAR/tests/ScriptReorganizer
+   
+   C Guide Changes
+      
+      2005-11-22 vs. guide.txt 37 2005-11-15 05:00:00Z stefanorausch
+      
+         + Added new sections Factory (5) and Exceptions(6)
+         
+         * Rectified section numbering: Best Practice (7), Known Issues (8) and
+           Conclusions (9)
+         * Changed section 2 and 3: now the "processing of files' import"
+           paragraph correctly shows up in section 2 instead of in section 3
+         * Section 4: moved the Decorators Chaining Matrix in front of the
+           annotation
+         * Content: corrected some typos
+      
+      2005-11-15 vs. guide.txt 33 2005-11-06 22:05:46Z stefanorausch
+         
+         + Added appendix section Test-Driven Development
+         + Added appendix section Guide Changes
+         
+         * Section 4: added Decorators Chaining Matrix
